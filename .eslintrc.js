@@ -13,12 +13,15 @@ module.exports = {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 13,
+        "ecmaVersion": 10,
         "sourceType": "module"
     },
     "plugins": [
         "react"
     ],
     "rules": {
+        "no-unused-vars": [
+            "warn"
+        ],
     }
 };
