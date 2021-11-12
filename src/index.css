@@ -4,7 +4,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC','Noto Sans TC', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url(images/tw.svg) center -50px/auto 3000px no-repeat, #8AD1E8;
+  background: url(images/tw.svg) 64% -34px/auto 3000px no-repeat, #8AD1E8;
   font-size: 15px;
 }
 @media screen and (min-width: 1200px) {
@@ -19,4 +19,7 @@ code {
 }
 *, *:before, *:after{
   box-sizing: border-box;
+}
+button, input, select {
+  font-family: inherit;
 }

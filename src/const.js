@@ -4,8 +4,8 @@ const checkIsMobile = () => {
   if (typeof window === 'undefined') {
     return true;
   }
-  return window.innerWidth < 1200;
-}
+  return window.innerWidth < 1024;
+};
 
 export const useIsMobile = () => {
   // Initialize the desktop size to an accurate value on initial state set
@@ -29,4 +29,8 @@ export const useIsMobile = () => {
   }, [])
 
   return isMobileSize;
-}
+};
+
+export const goToPage = (path, navigate) => {
+  navigate(path);
+};

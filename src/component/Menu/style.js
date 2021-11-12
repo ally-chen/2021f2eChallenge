@@ -12,7 +12,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   margin: 42px auto;
   padding: 15px 18px 15px 32px;
 }
@@ -20,7 +20,7 @@ flex-wrap: wrap;
 
 export const TopLogo = styled.img`
 width: 120px;
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   width: 130px;
 }
 `;
@@ -32,7 +32,7 @@ margin: 14px -7px 0;
 display: flex;
 flex-basis: calc(100% + 14px);
 flex-wrap: wrap;
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   margin: 0 -5px 0 0;
   flex-basis: auto;
 }
@@ -43,7 +43,7 @@ flex-wrap: wrap;
   > button {
     width: 100%;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     padding: 0 5px;
     margin-bottom: 0;
     flex-basis: auto;
