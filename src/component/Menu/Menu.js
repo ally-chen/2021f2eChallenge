@@ -1,27 +1,34 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { ButtonWhite } from '@/component/ui-components';
+import { useNavigate, Link } from "react-router-dom";
+import { ContentWrapper, ButtonWhite } from '@/component/ui-components';
 import logo from '@/images/logo.svg';
-import { useIsMobile, goToPage } from '@/const';
-import { MenuWrapper, TopLogo, NavList } from './style';
+import menu from '@/images/menu.svg';
+import menuOpening from '@/images/menu-2.svg';
+import { useIsMobile, goToPage } from '@/common';
+import { MenuWrapper, TopLogo, NavList, MenuButtonWrapper } from './style';
 
-// eslint-disable-next-line react/prop-types
 const Menu = () => {
   const [menuCollapsed, setMenuCollapsed] = React.useState(false);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const onNavItemClick = (path) => {
+    setMenuCollapsed(false);
+    goToPage(path, navigate);
+  };
   return (
-    <MenuWrapper>
-      <TopLogo src={logo} />
-      {isMobile && <ButtonWhite onClick={() => setMenuCollapsed((prev) => !prev)}>≡</ButtonWhite>}
-      <NavList style={{ display: isMobile && !menuCollapsed ? 'none' : 'flex' }}>
-        <li><ButtonWhite onClick={() => goToPage('/sites', navigate)}>全台景點</ButtonWhite></li>
-        <li><ButtonWhite onClick={() => goToPage('/events', navigate)}>找活動</ButtonWhite></li>
-        <li><ButtonWhite onClick={() => goToPage('/food', navigate)}>找美食</ButtonWhite></li>
-        <li><ButtonWhite onClick={() => goToPage('/stay', navigate)}>找住宿</ButtonWhite></li>
-        <li><ButtonWhite onClick={() => goToPage('/local', navigate)}>在地暢遊</ButtonWhite></li>
-      </NavList>
-    </MenuWrapper>
+    <ContentWrapper style={{position: 'sticky', top: 12, zIndex: 2}}>
+      <MenuWrapper>
+        <Link to="/"><TopLogo src={logo} /></Link>
+        {isMobile && <MenuButtonWrapper onClick={() => setMenuCollapsed((prev) => !prev)}><img src={menuCollapsed ? menuOpening : menu} /></MenuButtonWrapper>}
+        <NavList style={{ display: isMobile && !menuCollapsed ? 'none' : 'flex' }}>
+          <li><ButtonWhite onClick={() => onNavItemClick('/sites')}>全台景點</ButtonWhite></li>
+          <li><ButtonWhite onClick={() => onNavItemClick('/events')}>找活動</ButtonWhite></li>
+          <li><ButtonWhite onClick={() => onNavItemClick('/food')}>找美食</ButtonWhite></li>
+          <li><ButtonWhite onClick={() => onNavItemClick('/stay')}>找住宿</ButtonWhite></li>
+          {/* <li><ButtonWhite onClick={() => onNavItemClick('/local')}>在地暢遊</ButtonWhite></li> */}
+        </NavList>
+      </MenuWrapper>
+    </ContentWrapper>
   );
 }
 

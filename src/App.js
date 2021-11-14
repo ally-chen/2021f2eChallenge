@@ -2,22 +2,33 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
 } from "react-router-dom";
-import Menu from './component/Menu/Menu';
+import { PageContextProvider } from '@/store/pageStore';
+import { LocationContextProvider } from '@/store/locationStore';
+import Menu from '@/component/Menu/Menu';
+import NotFound from '@/container/NotFound/NotFound';
+import Home from '@/container/Home/Home';
+import Page from '@/container/Page/Page';
+import List from '@/container/List/List';
 
 function App() {
   return (
-    <Router>
-      <Menu />
-      <Routes>
-        <Route path="/sites" element={<div>All Sites</div>} />
-        <Route path="/events" element={<div>All Events</div>} />
-        <Route path="/food" element={<div>All food</div>} />
-        <Route path="/stay" element={<div>All hotels</div>} />
-        <Route path="/local" element={<div>All local sites</div>} />
-      </Routes>
-    </Router>
+    <LocationContextProvider>
+      <PageContextProvider>
+        <Router>
+          <Menu />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="sites" element={<List />} />
+            <Route path="food" element={<List />} />
+            <Route path="stay" element={<List />} />
+            <Route path="events" element={<List />} />
+            <Route path=":type/:id" element={<Page />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </PageContextProvider>
+    </LocationContextProvider>
   );
 }
 

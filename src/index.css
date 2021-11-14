@@ -6,8 +6,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: url(images/tw.svg) 64% -34px/auto 3000px no-repeat, #8AD1E8;
   font-size: 15px;
+  color: #291109;
 }
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1024px) {
   body {
     background-position: center -250px;
   }
@@ -22,4 +23,16 @@ code {
 }
 button, input, select {
   font-family: inherit;
+  outline: none;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+  padding:0;
+}
+
+#root {
+  overflow: hidden;
 }
