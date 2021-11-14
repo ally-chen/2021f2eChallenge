@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import React from 'react';
+import { Loader } from "@googlemaps/js-api-loader"
 import { useLocation, useNavigate } from "react-router-dom";
 import { ContentWrapper, IconText, BriefText,
   H1, ButtonWhite, ButtonMain } from "@/component/ui-components";
@@ -11,7 +13,7 @@ import iconInfo from '@/images/Info.svg';
 import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
 import { useAxiosGet, renderImg, formatDate, goToPage } from "@/common";
-import { MainCard, FigureContainer, CategoryLink, InlineInfo } from "./style";
+import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper } from "./style";
 
 const starByText = {
   '一星級': 1,
@@ -60,6 +62,29 @@ const Page = () => {
       setData(res[0]);
     });
   }, []);
+  React.useEffect(() => {
+    if (data && data.Position) {
+      const {PositionLon, PositionLat} = data.Position;
+      let map;
+    
+      const loader = new Loader({
+        apiKey: "AIzaSyDXnsysqJjsQX_Pv2ig4e5n1Ea4p53mgk8",
+        version: "weekly",
+      });
+      
+      loader.load().then(() => {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: PositionLat, lng: PositionLon },
+          zoom: 18,
+        });
+        new google.maps.Marker({
+          position: { lat: PositionLat, lng: PositionLon },
+          map,
+          title: data.Name,
+        });
+      });
+    }
+  }, [data]);
 
   const text = textByType[type];
 
@@ -68,48 +93,55 @@ const Page = () => {
       <MainCard>
         <Breadcrumb title={data.Name} />
         <FigureContainer style={{backgroundImage: renderImg(type, data.Picture.PictureUrl1 || '')}} />
-        <H1>{data.Name}</H1>
-        <InlineInfo>
-          <IconText style={{marginRight: 20}}>
-            <img src={iconMapMark} style={{ marginRight: 8 }} />
-            <BriefText>{data.Address || data.Location || data.City}</BriefText>
-          </IconText>
-          {data.Class && <CategoryLink onClick={() => goCategory(data.Class)}>{data.Class}</CategoryLink>}
-          {data.Class1 && <CategoryLink onClick={() => goCategory(data.Class1)}>{data.Class1}</CategoryLink>}
-          {data.Class2 && <CategoryLink onClick={() => goCategory(data.Class2)}>{data.Class2}</CategoryLink>}
-          {data.Class3 && <CategoryLink onClick={() => goCategory(data.Class3)}>{data.Class3}</CategoryLink>}
-          {data.Grade && <IconText>{Array.from({ length: starByText[data.Grade] }, (_, i) => <img key={i} src={iconStar} />)}</IconText>}
-        </InlineInfo>
-        {type !== 'stay' && (
-          <IconText size="lg">
-            <img src={iconClock} />
-            <span>
-              {type === 'food' ? `營業時間：${data.OpenTime || text.timeEmpty}` : ''}
-              {type === 'sites' ? (data.OpenTime || text.timeEmpty) : ''}
-              {type === 'events' ? (data.StartTime && data.EndTime ? `${formatDate(data.StartTime)} ~ ${formatDate(data.EndTime)}` : text.timeEmpty) : ''}
-            </span>
-          </IconText>
-        )}
-        {type !== 'food' && (
-          <IconText size="lg">
-            <img src={iconPrice} />
-            <span>{/events/.test(type) ? '票價資訊：' : '價位：'}{data[text.priceKey] || text.priceEmpty}</span>
-          </IconText>
-        )}
-        {(data.ParkingInfo || type === 'stay') && (
-          <IconText size="lg">
-            <img src={iconParking} />
-            <span>停車資訊：{data.ParkingInfo || (type === 'stay' ? '請洽旅宿業者' : '依現場為主')}</span>
-          </IconText>
-        )}
-        {data.ServiceInfo && (
-          <IconText size="lg">
-            <img src={iconInfo} />
-            <span>服務設施：{data.ServiceInfo}</span>
-          </IconText>
-        )}
-        {data.Phone && <ButtonWhite>{data.Phone}</ButtonWhite>}
-        {data.WebsiteUrl && <ButtonMain>官方網站</ButtonMain>}
+        <MainInfoWrapper>
+          <div>
+            <H1>{data.Name}</H1>
+            <InlineInfo>
+              <IconText style={{marginRight: 20}}>
+                <img src={iconMapMark} style={{ marginRight: 8 }} />
+                <BriefText>{data.Address || data.Location || data.City}</BriefText>
+              </IconText>
+              {data.Class && <CategoryLink onClick={() => goCategory(data.Class)}>{data.Class}</CategoryLink>}
+              {data.Class1 && <CategoryLink onClick={() => goCategory(data.Class1)}>{data.Class1}</CategoryLink>}
+              {data.Class2 && <CategoryLink onClick={() => goCategory(data.Class2)}>{data.Class2}</CategoryLink>}
+              {data.Class3 && <CategoryLink onClick={() => goCategory(data.Class3)}>{data.Class3}</CategoryLink>}
+              {data.Grade && <IconText>{Array.from({ length: starByText[data.Grade] }, (_, i) => <img key={i} src={iconStar} />)}</IconText>}
+            </InlineInfo>
+            {type !== 'stay' && (
+              <IconText size="lg">
+                <img src={iconClock} />
+                <span>
+                  {type === 'food' ? `營業時間：${data.OpenTime || text.timeEmpty}` : ''}
+                  {type === 'sites' ? (data.OpenTime || text.timeEmpty) : ''}
+                  {type === 'events' ? (data.StartTime && data.EndTime ? `${formatDate(data.StartTime)} ~ ${formatDate(data.EndTime)}` : text.timeEmpty) : ''}
+                </span>
+              </IconText>
+            )}
+            {type !== 'food' && (
+              <IconText size="lg">
+                <img src={iconPrice} />
+                <span>{/events/.test(type) ? '票價資訊：' : '價位：'}{data[text.priceKey] || text.priceEmpty}</span>
+              </IconText>
+            )}
+            {(data.ParkingInfo || type === 'stay') && (
+              <IconText size="lg">
+                <img src={iconParking} />
+                <span>停車資訊：{data.ParkingInfo || (type === 'stay' ? '請洽旅宿業者' : '依現場為主')}</span>
+              </IconText>
+            )}
+            {data.ServiceInfo && (
+              <IconText size="lg">
+                <img src={iconInfo} />
+                <span>服務設施：{data.ServiceInfo}</span>
+              </IconText>
+            )}
+            {data.Phone && <ButtonWhite>{data.Phone}</ButtonWhite>}
+            {data.WebsiteUrl && <ButtonMain>官方網站</ButtonMain>}
+          </div>
+          <div className="mapWrapper">
+            <div id="map" style={{height: "100%"}} />
+          </div>
+        </MainInfoWrapper>
       </MainCard>
     </ContentWrapper>
   ) : <NotFound />;

@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/core": "7.12.3",
     "@googlemaps/js-api-loader": "^1.12.9",
+    "@googlemaps/react-wrapper": "^1.1.12",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.15.0",

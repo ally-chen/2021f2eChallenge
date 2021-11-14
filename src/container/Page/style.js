@@ -45,3 +45,37 @@ margin-bottom: 30px;
   margin-right: 10px;
 }
 `;
+
+export const MainInfoWrapper = styled.div`
+display: flex;
+flex-wrap: wrap;
+margin-bottom: 30px;
+>div {
+  flex-basis: 100%;
+  max-width: 100%;
+  &.mapWrapper {
+    height: 160px;
+    margin: 20px 0;
+    #map {
+      border-radius: 40px;
+      overflow: hidden;
+    }
+  }
+}
+${desktopMedia(`
+margin: 20px 0;
+> div:first-child {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+> div:last-child {
+  flex-basis: 50%;
+  max-width: 50%;
+  padding-left: 40px;
+  height: 400px;
+  &.mapWrapper {
+    margin: 0;
+  }
+}
+`)}
+`;
