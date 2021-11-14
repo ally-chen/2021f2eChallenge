@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/2021f2eChallenge/static/css/main.ba180082.chunk.css",
-    "main.js": "/2021f2eChallenge/static/js/main.8a15b523.chunk.js",
-    "main.js.map": "/2021f2eChallenge/static/js/main.8a15b523.chunk.js.map",
+    "main.js": "/2021f2eChallenge/static/js/main.04630348.chunk.js",
+    "main.js.map": "/2021f2eChallenge/static/js/main.04630348.chunk.js.map",
     "runtime-main.js": "/2021f2eChallenge/static/js/runtime-main.623eb2fd.js",
     "runtime-main.js.map": "/2021f2eChallenge/static/js/runtime-main.623eb2fd.js.map",
-    "static/js/2.e94dc871.chunk.js": "/2021f2eChallenge/static/js/2.e94dc871.chunk.js",
-    "static/js/2.e94dc871.chunk.js.map": "/2021f2eChallenge/static/js/2.e94dc871.chunk.js.map",
+    "static/js/2.b6334b4c.chunk.js": "/2021f2eChallenge/static/js/2.b6334b4c.chunk.js",
+    "static/js/2.b6334b4c.chunk.js.map": "/2021f2eChallenge/static/js/2.b6334b4c.chunk.js.map",
     "static/js/3.01e82ab6.chunk.js": "/2021f2eChallenge/static/js/3.01e82ab6.chunk.js",
     "static/js/3.01e82ab6.chunk.js.map": "/2021f2eChallenge/static/js/3.01e82ab6.chunk.js.map",
     "index.html": "/2021f2eChallenge/index.html",
     "static/css/main.ba180082.chunk.css.map": "/2021f2eChallenge/static/css/main.ba180082.chunk.css.map",
-    "static/js/2.e94dc871.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.e94dc871.chunk.js.LICENSE.txt",
+    "static/js/2.b6334b4c.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.b6334b4c.chunk.js.LICENSE.txt",
     "static/media/404.8bf6fbda.svg": "/2021f2eChallenge/static/media/404.8bf6fbda.svg",
     "static/media/Clock.02c5214c.svg": "/2021f2eChallenge/static/media/Clock.02c5214c.svg",
     "static/media/Info.4b2bbace.svg": "/2021f2eChallenge/static/media/Info.4b2bbace.svg",
@@ -37,8 +37,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.623eb2fd.js",
-    "static/js/2.e94dc871.chunk.js",
+    "static/js/2.b6334b4c.chunk.js",
     "static/css/main.ba180082.chunk.css",
-    "static/js/main.8a15b523.chunk.js"
+    "static/js/main.04630348.chunk.js"
   ]
 }
