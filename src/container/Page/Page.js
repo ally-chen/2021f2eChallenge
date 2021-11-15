@@ -91,14 +91,10 @@ const Page = () => {
   }, [data]);
 
   React.useEffect(() => {
-    query({ type, id }).then((res) => {
-      setData(res[0]);
-    });
-  }, []);
-
-  React.useEffect(() => {
     if (id) {
-      console.log('go', id);
+      query({ type, id }).then((res) => {
+        setData(res[0]);
+      });
       window.scrollTo({
         top: 0
       });
