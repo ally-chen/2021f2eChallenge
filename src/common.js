@@ -174,7 +174,7 @@ export const renderGrids = (listData, type) => {
             key={one.ID}
             data={{
               title: one.Name,
-              location: one.City || one.Address.substr(0, 3),
+              location: one.City || (one.Address ? one.Address.substr(0, 3) : ''),
               link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
             type="food" />
         ) : <div key={one.ID}> </div>)}
@@ -188,7 +188,7 @@ export const renderGrids = (listData, type) => {
           key={one.ID}
           data={{
             title: one.Name,
-            location: one.City || one.Location || one.Address.substr(0, 3),
+            location: one.City || one.Location ||  (one.Address ? one.Address.substr(0, 3) : ''),
             link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
           }}
           type={type} />

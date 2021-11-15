@@ -16,7 +16,7 @@ import iconInfo from '@/images/Info.svg';
 import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
 import { useAxiosGet, renderImg, formatDate, renderGrids } from "@/common";
-import { textByType } from "@/const";
+import { textByType, auth } from "@/const";
 import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper, DetailWrapper } from "./style";
 
 const starByText = {
@@ -35,6 +35,7 @@ const Page = () => {
   const { query } = useAxiosGet();
   const text = textByType[type];
   const relatedTopic = Object.keys(textByType).filter((n) => n !== type);
+  const ref = React.useRef(null);
 
   if (!/sites|food|stay|events/.test(type)) {
     return <NotFound />;
@@ -71,19 +72,29 @@ const Page = () => {
       let map;
 
       const loader = new Loader({
-        apiKey: "AIzaSyDXnsysqJjsQX_Pv2ig4e5n1Ea4p53mgk8",
+        apiKey: auth.gMapKey,
         version: "weekly",
       });
 
       loader.load().then(() => {
-        map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(ref.current, {
           center: { lat: PositionLat, lng: PositionLon },
           zoom: 15,
         });
-        new google.maps.Marker({
+        const infowindow = new google.maps.InfoWindow({
+          content: data.Name,
+        });
+        const marker = new google.maps.Marker({
           position: { lat: PositionLat, lng: PositionLon },
           map,
           title: data.Name,
+        });
+        marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+            shouldFocus: true,
+          });
         });
       });
       getRelatedData(PositionLat, PositionLon);
@@ -157,7 +168,7 @@ const Page = () => {
               </div>
             </FlexBetween>
             <div className="mapWrapper">
-              <div id="map" style={{ height: "100%" }} />
+              <div id="map" ref={ref} style={{ height: "100%" }} />
             </div>
           </MainInfoWrapper>
           <DetailWrapper>{(data.DescriptionDetail || data.Description)}</DetailWrapper>

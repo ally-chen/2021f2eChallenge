@@ -12,6 +12,7 @@ export const alias = {
 export const auth = {
   id: '64958ee551c04190a4957935fc7071b8',
   key: '3fa_GOG04qfPPcd4A5o4WTKAkk8',
+  gMapKey: 'AIzaSyDXnsysqJjsQX_Pv2ig4e5n1Ea4p53mgk8'
 };
 
 export const colors = {
