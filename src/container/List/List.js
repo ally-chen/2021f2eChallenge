@@ -20,6 +20,8 @@ const List = () => {
   const urlCity = params.get('city') || '';
   const urlCategory = params.get('c') || '';
   const urlPage = params.get('p') || 1;
+  const urlNearby = params.get('$spatialFilter') || '';
+  const [__, pointLat, pointLon] = urlNearby ? urlNearby.match(/nearby\((.+),(.+),.+\)/) : [];
   const [data, setData] = React.useState([]);
   const [counts, setCounts] = React.useState(0);
   const [pageTotal, setPageTotal] = React.useState(0);
@@ -58,7 +60,7 @@ const List = () => {
     if (searchParams.category) {
       searchString += `&c=${searchParams.category}`;
     }
-    navigate({ search: searchString });
+    navigate({ search: `${searchString}${urlNearby ? `&$spaceFilter=${urlNearby}` : ''}` });
     getData(searchParams);
     getLength(searchParams);
     setSearchParams((prev) => ({ ...prev, page: 1 }));
@@ -151,25 +153,34 @@ const List = () => {
         <AlignCenter><H1>{text.pageTitle}</H1></AlignCenter>
         <SearchBoard style={{ width: 1000 }}>
           <FlexBetween style={isMobile ? { flexWrap: 'wrap' } : null}>
-            <div style={isMobile ? { flexBasis: '100%' } : null}>
-              <StyledSelect
-                defaultValue={searchParams.city}
-                onSelect={(val) => setSearchParams((prev) => ({ ...prev, city: val }))}
-                options={[{ value: '', label: text.searchField1 }].concat(cities.map((n) => ({ value: n.key, label: n.name })))}
-              />
-              <StyledSelect
-                defaultValue={searchParams.category}
-                onSelect={(val) => setSearchParams((prev) => ({ ...prev, category: val }))}
-                options={text.searchField2.map((n) => ({ value: n, label: n || text.searchField2All }))}
-              />
-              {!isMobile && <ButtonMain onClick={onSearch}>搜尋</ButtonMain>}
-            </div>
-            {isMobile && <ButtonMain onClick={onSearch}>搜尋</ButtonMain>}
+            {urlNearby ? (
+              <div>
+                ({pointLon.substr(0, 5)}, {pointLat.substr(0, 4)}) 附近的{text.label}
+                {<ButtonMain onClick={() => navigate(`/${currentType}`)} style={{marginLeft: 8}}>返回搜尋</ButtonMain>}
+              </div>
+            ) : (
+              <>
+                <div style={isMobile ? { flexBasis: '100%' } : null}>
+                  <StyledSelect
+                    defaultValue={searchParams.city}
+                    onSelect={(val) => setSearchParams((prev) => ({ ...prev, city: val }))}
+                    options={[{ value: '', label: text.searchField1 }].concat(cities.map((n) => ({ value: n.key, label: n.name })))}
+                  />
+                  <StyledSelect
+                    defaultValue={searchParams.category}
+                    onSelect={(val) => setSearchParams((prev) => ({ ...prev, category: val }))}
+                    options={text.searchField2.map((n) => ({ value: n, label: n || text.searchField2All }))}
+                  />
+                  {!isMobile && <ButtonMain onClick={onSearch}>搜尋</ButtonMain>}
+                </div>
+                {isMobile && <ButtonMain onClick={onSearch}>搜尋</ButtonMain>}
+              </>
+            )}
             <span>{text.total(counts)}</span>
           </FlexBetween>
         </SearchBoard>
       </PageTop>
-      {data.length > 0 ? renderGrids(data, currentType) : <FullContainer style={{height: 'auto'}}><Empty text={text.noMatch} /></FullContainer>}
+      {data.length > 0 ? renderGrids(data, currentType) : <FullContainer style={{ height: 'auto' }}><Empty text={text.noMatch} /></FullContainer>}
       <Pagination />
     </ContentWrapper>
   );

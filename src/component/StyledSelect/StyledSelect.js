@@ -8,13 +8,27 @@ import { MobileSelect, DropdownWrapper, DropdownList, DropdownListItem } from '.
 const StyledSelect = ({ defaultValue, options, onSelect }) => {
   const isMobileEnv = useIsMobileEnv();
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const selectRef = React.useRef(null);
   const onListSelect = (val) => {
     onSelect(val);
-    setShowDropdown(false);
   };
   const onDefaultSelect = (e) => {
     onSelect(e.target.value);
   };
+
+  React.useEffect(() => {
+    const root = document.getElementById('root');
+    const onOtherClick = () => {
+      setShowDropdown(false);
+    };
+    if (showDropdown) {
+      root.addEventListener('click', onOtherClick);
+    }
+    return () => {
+      root.removeEventListener('click', onOtherClick);
+    }
+  }, [showDropdown]);
+
   const findMatch = options.find((n) => n.value === defaultValue);
   const currentValue = findMatch ? findMatch.label : defaultValue;
 
@@ -24,7 +38,7 @@ const StyledSelect = ({ defaultValue, options, onSelect }) => {
         {options.map((opt) => <option value={opt.value} key={opt.value}>{opt.label}</option>)}
       </MobileSelect>
     ) : (
-      <DropdownWrapper>
+      <DropdownWrapper ref={selectRef}>
         <ButtonWhite onClick={() => setShowDropdown((prev) => !prev)}>
           {currentValue}
           <img src={icArrow} />
