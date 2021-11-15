@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {colors} from '@/const';
+import { colors } from '@/const';
 
 export const BreadcrumbList = styled.ul`
 display: flex;

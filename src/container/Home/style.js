@@ -1,4 +1,4 @@
-import styled, {createGlobalStyle, keyframes} from 'styled-components';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { FullContainer, H2 } from '@/component/ui-components';
 import { desktopMedia } from '@/const';
 
@@ -64,23 +64,23 @@ export const Slogan = styled.div`
 `;
 
 const getLength = (value) => {
-    if (typeof value === 'string') {
-        return value;
-    }
-    return `${value}px`;
+  if (typeof value === 'string') {
+    return value;
+  }
+  return `${value}px`;
 };
 
 export const Deco = styled.img`
 position: absolute;
-width: ${({mobile}) => mobile.width ? getLength(mobile.width) : '151px'};
-${({mobile}) => mobile.top ? `top: ${getLength(mobile.top)}` : ''};
-${({mobile}) => mobile.right ? `right: ${getLength(mobile.right)}` : ''};
-${({mobile}) => mobile.left ? `left: ${getLength(mobile.left)}` : ''};
-${({mobile}) => mobile.bottom ? `bottom: ${getLength(mobile.bottom)}` : ''};
+width: ${({ mobile }) => mobile.width ? getLength(mobile.width) : '151px'};
+${({ mobile }) => mobile.top ? `top: ${getLength(mobile.top)}` : ''};
+${({ mobile }) => mobile.right ? `right: ${getLength(mobile.right)}` : ''};
+${({ mobile }) => mobile.left ? `left: ${getLength(mobile.left)}` : ''};
+${({ mobile }) => mobile.bottom ? `bottom: ${getLength(mobile.bottom)}` : ''};
 &.floating {
     animation: ${floating} 6s linear infinite;
 }
-${({desktop}) => desktopMedia(`
+${({ desktop }) => desktopMedia(`
     width: ${desktop.width ? getLength(desktop.width) : '303px'};
     ${desktop.top ? `top: ${getLength(desktop.top)}` : ''};
     ${desktop.right ? `right: ${getLength(desktop.right)}` : ''};

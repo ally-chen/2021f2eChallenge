@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useIsMobileEnv} from '@/common';
+import { useIsMobileEnv } from '@/common';
 import { ButtonWhite } from '@/component/ui-components';
 import icArrow from '@/images/dropdown-arrow.svg';
 import { MobileSelect, DropdownWrapper, DropdownList, DropdownListItem } from './style';
 
-const StyledSelect = ({defaultValue, options, onSelect}) => {
+const StyledSelect = ({ defaultValue, options, onSelect }) => {
   const isMobileEnv = useIsMobileEnv();
   const [showDropdown, setShowDropdown] = React.useState(false);
   const onListSelect = (val) => {

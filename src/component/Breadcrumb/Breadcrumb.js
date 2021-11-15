@@ -1,10 +1,10 @@
 
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from 'prop-types';
-import {textByType} from "@/container/List/List";
-import {BreadcrumbList, BreadcrumbItem} from "./style";
+import { textByType } from "@/const";
+import { BreadcrumbList, BreadcrumbItem } from "./style";
 
-const Breadcrumb = ({title}) => {
+const Breadcrumb = ({ title }) => {
 
   const location = useLocation();
   const { pathname } = location;

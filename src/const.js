@@ -23,6 +23,38 @@ export const colors = {
   dark: '#696969'
 };
 
+
+export const textByType = {
+  sites: {
+    pageTitle: '找景點',
+    searchField1: '全台景點',
+    searchField2: ['', '歷史文化', '戶外踏青', '藍色水岸', '宗教巡禮', '軍旅探索', '夜市商圈', '風景區'],
+    searchField2All: '所有景點',
+    total: (countsNum) => `${countsNum} 個景點`
+  },
+  stay: {
+    pageTitle: '找住宿',
+    searchField1: '全台旅宿',
+    searchField2: ['', '一般旅館', '國際觀光旅館', '一般觀光旅館', '民宿'],
+    searchField2All: '所有類型',
+    total: (countsNum) => `共 ${countsNum} 家`
+  },
+  events: {
+    pageTitle: '找活動',
+    searchField1: '全台活動',
+    searchField2: ['', '節慶活動', '藝文活動', '年度活動', '自行車活動', '遊憩活動', '活動快報', '其他'],
+    searchField2All: '所有活動',
+    total: (countsNum) => `共 ${countsNum} 項`
+  },
+  food: {
+    pageTitle: '找美食',
+    searchField1: '全台美食',
+    searchField2: ['', '異國料理', '中式美食', '地方特產', '甜點冰品', '夜市小吃', '素食', '伴手禮', '其他'],
+    searchField2All: '所有美食',
+    total: (countsNum) => `${countsNum} 項美食`
+  }
+};
+
 // https://gist.motc.gov.tw/gist_api/V3/Map/Basic/City?$format=JSON
 
 export const cities = [

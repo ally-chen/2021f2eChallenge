@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import icArrow from '@/images/dropdown-arrow.svg';
-import {SearchBoard} from '@/component/ui-components';
+import { SearchBoard } from '@/component/ui-components';
 import { colors, desktopMedia } from '@/const';
 
 export const MobileSelect = styled.select`

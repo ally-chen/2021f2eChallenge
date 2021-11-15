@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { H3, BriefText, IconText } from '@/component/ui-components';
-import { goToPage, renderImg } from '@/common';
+import { renderImg } from '@/common';
 import iconMapMark from '@/images/Marker.svg';
 import { CardWrapper, LinkText, FigureContainer } from './style';
 
-const Card = ({data, type}) => {
-  const {title, location, link, figure} = data;
+const Card = ({ data, type }) => {
+  const { title, location, link, figure } = data;
   const navigate = useNavigate();
   const onCardClick = () => {
-    goToPage(`/${type}${link}`, navigate);
+    navigate(`/${type}${link}`);
   };
   return (
     <CardWrapper onClick={onCardClick} title={title}>
-      <FigureContainer style={{backgroundImage: renderImg(type, figure)}} />
+      <FigureContainer style={{ backgroundImage: renderImg(type, figure) }} />
       <H3>{title}</H3>
       <IconText>
         <img src={iconMapMark} />

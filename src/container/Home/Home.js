@@ -1,8 +1,10 @@
 import React from 'react';
 // import Slider from "react-slick";
 import { useNavigate, Link } from "react-router-dom";
-import { FullContainer, ContentWrapper, ButtonMain, SearchBoard, FlexBetween,
-  H2, H4, TripleColsWrapper, FourColsWrapper, AlignCenter } from "@/component/ui-components";
+import {
+  FullContainer, ContentWrapper, ButtonMain, SearchBoard, FlexBetween,
+  H2, H4, TripleColsWrapper, FourColsWrapper, AlignCenter
+} from "@/component/ui-components";
 import imgHomeLogo from "@/images/home-logo.svg";
 import imgCloud from "@/images/cloud.png";
 import imgCloudBlur from "@/images/cloud-blur.png";
@@ -16,7 +18,7 @@ import imgBoat from "@/images/boat.png";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Card from "@/component/Card/Card";
 import { cities } from "@/const";
-import { goToPage, useAxiosGet, useIsMobileEnv } from "@/common";
+import { useAxiosGet, useIsMobileEnv } from "@/common";
 import { OverwriteBody, HomeLogo, Slogan, Deco, QuickLinks, SimpleCard } from './style';
 
 const stayIcons = [icStay1, icStay2, icStay3, icStay4];
@@ -36,10 +38,10 @@ const Home = () => {
   const isMobile = useIsMobileEnv();
   const { query } = useAxiosGet();
   const onSearch = () => {
-    goToPage({
+    navigate({
       pathname: searchParams.type,
       search: `?city=${searchParams.city}`
-    }, navigate)
+    })
   };
 
   const initData = () => {
@@ -86,8 +88,8 @@ const Home = () => {
       <OverwriteBody />
       <FullContainer>
         <Deco className="floating" src={imgCloud} desktop={{ width: 261, right: 'calc(50vw - 640px)', top: '-2%' }} mobile={{ right: -90, top: '15%' }} />
-        <Deco src={imgCloudBlur} desktop={{ width: 651, left: 'calc(50vw - 924px)', bottom: -120 }} mobile={{width: 356, left: -237, bottom: '24%'}} />
-        <Deco src={imgTraveler} desktop={{ width: 320, right: 'calc(50vw - 680px)', bottom: -200 }} mobile={{width: 172, right: -30, bottom: -30}} style={{transform: 'rotate(15deg)'}} />
+        <Deco src={imgCloudBlur} desktop={{ width: 651, left: 'calc(50vw - 924px)', bottom: -120 }} mobile={{ width: 356, left: -237, bottom: '24%' }} />
+        <Deco src={imgTraveler} desktop={{ width: 320, right: 'calc(50vw - 680px)', bottom: -200 }} mobile={{ width: 172, right: -30, bottom: -30 }} style={{ transform: 'rotate(15deg)' }} />
         <div>
           <HomeLogo src={imgHomeLogo} alt="台灣好好" />
           <Slogan>好回憶，來自好旅程</Slogan>
@@ -96,16 +98,16 @@ const Home = () => {
               <div style={isMobile ? { flexBasis: '100%' } : null}>
                 <StyledSelect
                   defaultValue={searchParams.city}
-                  options={cities.map((n) => ({value: n.key, label: n.name}))}
-                  onSelect={(val) => setSearchParams((prev) => ({...prev, city: val}))}
+                  options={cities.map((n) => ({ value: n.key, label: n.name }))}
+                  onSelect={(val) => setSearchParams((prev) => ({ ...prev, city: val }))}
                 />
                 <StyledSelect
                   defaultValue={searchParams.type}
-                  onSelect={(val) => setSearchParams((prev) => ({...prev, type: val}))}
-                  options={[{value: 'sites', label: '找景點'}, {value: 'stay', label: '找住宿'}, {value: 'food', label: '找美食'}, {value: 'events', label: '找活動'}]}
+                  onSelect={(val) => setSearchParams((prev) => ({ ...prev, type: val }))}
+                  options={[{ value: 'sites', label: '找景點' }, { value: 'stay', label: '找住宿' }, { value: 'food', label: '找美食' }, { value: 'events', label: '找活動' }]}
                 />
               </div>
-              <ButtonMain onClick={onSearch} style={{width: isMobile ? '100%' : 'auto'}}>搜尋</ButtonMain>
+              <ButtonMain onClick={onSearch} style={{ width: isMobile ? '100%' : 'auto' }}>搜尋</ButtonMain>
             </FlexBetween>
           </SearchBoard>
         </div>
@@ -124,7 +126,7 @@ const Home = () => {
           {homeData.sites.map((one) => (
             <Card
               key={one.ID}
-              data={{title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''}}
+              data={{ title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
               type="sites" />
           ))}
         </TripleColsWrapper>
@@ -132,7 +134,7 @@ const Home = () => {
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
         <Deco className="floating" src={imgCloud} desktop={{ width: 261, left: -40, bottom: -100 }} mobile={{ left: -87, bottom: 180 }} />
-        <Deco src={imgCloudBlur} desktop={{ width: 546, right: -235, bottom: -200 }} mobile={{width: 297, right: -145, bottom: 80}} style={{transform: 'scaleX(-1)'}} />
+        <Deco src={imgCloudBlur} desktop={{ width: 546, right: -235, bottom: -200 }} mobile={{ width: 297, right: -145, bottom: 80 }} style={{ transform: 'scaleX(-1)' }} />
       </FullContainer>
       <ContentWrapper>
         <AlignCenter><H2>最新活動</H2></AlignCenter>
@@ -140,7 +142,7 @@ const Home = () => {
           {homeData.events.map((one) => (
             <Card
               key={one.ID}
-              data={{title: one.Name, location: one.City || one.Location || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''}}
+              data={{ title: one.Name, location: one.City || one.Location || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
               type="events" />
           ))}
         </TripleColsWrapper>
@@ -148,7 +150,7 @@ const Home = () => {
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
         <Deco className="floating" src={imgCloud} desktop={{ width: 303, right: -20, bottom: -100 }} mobile={{ width: 137, right: 20, bottom: 20 }} />
-        <Deco src={imgTraveler2} desktop={{ width: 350, left: 'calc(50vw - 700px)', top: '60%' }} mobile={{width: 140, left: -10, top: '84%'}} style={{zIndex: -1, transform: 'rotate(-8deg)'}} />
+        <Deco src={imgTraveler2} desktop={{ width: 350, left: 'calc(50vw - 700px)', top: '60%' }} mobile={{ width: 140, left: -10, top: '84%' }} style={{ zIndex: -1, transform: 'rotate(-8deg)' }} />
       </FullContainer>
       <ContentWrapper>
         <AlignCenter><H2>就要吃美食</H2></AlignCenter>
@@ -156,7 +158,7 @@ const Home = () => {
           {homeData.food.map((one) => (
             <Card
               key={one.ID}
-              data={{title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''}}
+              data={{ title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
               type="food" />
           ))}
         </FourColsWrapper>
@@ -182,7 +184,7 @@ const Home = () => {
         </FourColsWrapper>
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
-        <Deco src={imgCloudBlur} desktop={{ width: 530, left: -250, top: -20 }} mobile={{ left: -300, bottom: 30 }} style={{transform: 'scaleX(-1)'}} />
+        <Deco src={imgCloudBlur} desktop={{ width: 530, left: -250, top: -20 }} mobile={{ left: -300, bottom: 30 }} style={{ transform: 'scaleX(-1)' }} />
         <Deco src={imgCloudBlur} desktop={{ width: 530, right: -330, top: 180 }} mobile={{ right: -300, bottom: 30 }} />
         <Deco src={imgBoat} desktop={{ width: 276, right: 80, top: 180 }} mobile={{ width: 143, right: -34, bottom: -50 }} />
       </FullContainer>

@@ -4,7 +4,7 @@ import { ContentWrapper, ButtonWhite } from '@/component/ui-components';
 import logo from '@/images/logo.svg';
 import menu from '@/images/menu.svg';
 import menuOpening from '@/images/menu-2.svg';
-import { useIsMobile, goToPage } from '@/common';
+import { useIsMobile } from '@/common';
 import { MenuWrapper, TopLogo, NavList, MenuButtonWrapper } from './style';
 
 const Menu = () => {
@@ -13,10 +13,10 @@ const Menu = () => {
   const navigate = useNavigate();
   const onNavItemClick = (path) => {
     setMenuCollapsed(false);
-    goToPage(path, navigate);
+    navigate(path);
   };
   return (
-    <ContentWrapper style={{position: 'sticky', top: 12, zIndex: 2}}>
+    <ContentWrapper style={{ position: 'sticky', top: 12, zIndex: 2 }}>
       <MenuWrapper>
         <Link to="/"><TopLogo src={logo} /></Link>
         {isMobile && <MenuButtonWrapper onClick={() => setMenuCollapsed((prev) => !prev)}><img src={menuCollapsed ? menuOpening : menu} /></MenuButtonWrapper>}

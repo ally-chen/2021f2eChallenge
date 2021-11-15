@@ -9,7 +9,7 @@ import imgEmptyEvents from "@/images/placeholder-events.png";
 import icArrow from '@/images/dropdown-arrow.svg';
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationList, PaginationItem } from '@/component/ui-components';
-import { apiRoot, auth, alias, cities } from "@/const";
+import { apiRoot, auth, alias } from "@/const";
 
 const imgPlaceholder = {
   sites: imgEmptySites,
@@ -62,11 +62,7 @@ export const useIsMobileEnv = () => {
 };
 
 export const renderImg = (type, figure) => {
- return `url(${figure || imgPlaceholder[type]})`;
-};
-
-export const goToPage = (path, navigate) => {
-  navigate(path);
+  return `url(${figure || imgPlaceholder[type]})`;
 };
 
 const genHMAC = () => {
@@ -75,7 +71,7 @@ const genHMAC = () => {
   ShaObj.setHMACKey(auth.key, 'TEXT');
   ShaObj.update(`x-date: ${GMTString}`);
   const HMAC = ShaObj.getHMAC('B64');
-  return {HMAC, GMTString};
+  return { HMAC, GMTString };
 };
 
 export const useAxiosGet = () => {
@@ -83,7 +79,7 @@ export const useAxiosGet = () => {
   const { search } = location;
   let params = new URLSearchParams(search);
   const urlFilter = params.get('$filter');
-  const {HMAC, GMTString} = genHMAC();
+  const { HMAC, GMTString } = genHMAC();
 
   const query = async ({
     type,
@@ -156,7 +152,7 @@ export const useAxiosGet = () => {
       console.log('api error: ', err);
     }
 
-    return responseData 
+    return responseData
   };
   return {
     query
@@ -191,9 +187,9 @@ export const useSearch = () => {
   });
 
   const getData = (config) => {
-    query({type: currentType, fields: `ID,Name,City,Address,Picture${ currentType === 'events' ? ',Location' : ''}`, length: 12, ...config}).then((res) => {
+    query({ type: currentType, fields: `ID,Name,City,Address,Picture${currentType === 'events' ? ',Location' : ''}`, length: 12, ...config }).then((res) => {
       if (res.length % 12 !== 0) {
-        setData(res.concat(Array.from({length: res.length % 12}, (_, i) => ({ ID: i }))));
+        setData(res.concat(Array.from({ length: res.length % 12 }, (_, i) => ({ ID: i }))));
       } else {
         setData(res);
       }
@@ -202,11 +198,11 @@ export const useSearch = () => {
 
   const getLength = (config) => {
     const { page, ...others } = config;
-    query({type: currentType, fields: 'ID', ...others}).then((res) => {
+    query({ type: currentType, fields: 'ID', ...others }).then((res) => {
       setCounts(res.length);
     });
   };
-  
+
   const onSearch = () => {
     getData(searchParams);
     getLength(searchParams);
@@ -217,20 +213,20 @@ export const useSearch = () => {
     if (searchParams.category) {
       searchString += `&c=${searchParams.category}`;
     }
-    setSearchParams((prev) => ({...prev, page: 1}));
-    goToPage({search: searchString}, navigate);
+    setSearchParams((prev) => ({ ...prev, page: 1 }));
+    navigate({ search: searchString });
   };
 
   React.useEffect(() => {
-    getData({city, category, page: urlPage});
-    getLength({city, category});
+    getData({ city, category, page: urlPage });
+    getLength({ city, category });
   }, []);
 
   React.useEffect(() => {
     if (counts) {
       const pageNumber = Math.ceil(counts / 12);
       setPageTotal(Math.ceil(counts / 12));
-      setPageRound({current: Math.ceil(urlPage / 5), total: Math.ceil(pageNumber / 5)});
+      setPageRound({ current: Math.ceil(urlPage / 5), total: Math.ceil(pageNumber / 5) });
     }
   }, [counts]);
 
@@ -248,9 +244,9 @@ export const useSearch = () => {
 
   const onPageChange = (target) => {
     params.delete('p');
-    goToPage({search: `${params.toString()}&p=${target}`}, navigate);
-    setSearchParams((prev) => ({...prev, page: target}));
-    getData({...searchParams, page: target});
+    navigate({ search: `${params.toString()}&p=${target}` });
+    setSearchParams((prev) => ({ ...prev, page: target }));
+    getData({ ...searchParams, page: target });
     const heading = document.querySelector(`h1`);
     window.scrollTo({
       top: heading.offsetTop - 60,
@@ -261,41 +257,41 @@ export const useSearch = () => {
   const onPrev = (target) => {
     onPageChange(target);
     if (target % 5 === 0 && pageRound.current !== 1) {
-      setPageRound((prev) => ({...prev, current: prev.current - 1}));
+      setPageRound((prev) => ({ ...prev, current: prev.current - 1 }));
     }
   };
 
   const onNext = (target) => {
     onPageChange(target);
     if (target % 5 === 1 && pageRound.current < pageRound.total) {
-      setPageRound((prev) => ({...prev, current: prev.current + 1}));
+      setPageRound((prev) => ({ ...prev, current: prev.current + 1 }));
     }
   };
 
   const Pagination = () => {
     const pageOffset = (pageRound.current - 1) * 5 + 1;
-    const pageItemNumber =  pageTotal > 5 ? (pageRound.current < pageRound.total ? 5 : (pageTotal - pageOffset + 1)) : pageTotal;
+    const pageItemNumber = pageTotal > 5 ? (pageRound.current < pageRound.total ? 5 : (pageTotal - pageOffset + 1)) : pageTotal;
     return counts ? (
       <PaginationList>
         {parseInt(searchParams.page) !== 1 && (
           <PaginationItem onClick={() => onPrev(parseInt(searchParams.page) - 1)}>
-            <img src={icArrow} style={{transform: 'rotate(90deg)'}} />
+            <img src={icArrow} style={{ transform: 'rotate(90deg)' }} />
           </PaginationItem>
         )}
-        {Array.from({length: pageItemNumber},
+        {Array.from({ length: pageItemNumber },
           (_, i) => (
-          <PaginationItem
-            className={searchParams.page === (i + pageOffset) ? 'active' : ''}
-            key={i}
-            onClick={searchParams.page === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
-          >
-            {i + pageOffset}
-          </PaginationItem>
+            <PaginationItem
+              className={searchParams.page === (i + pageOffset) ? 'active' : ''}
+              key={i}
+              onClick={searchParams.page === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
+            >
+              {i + pageOffset}
+            </PaginationItem>
           )
         )}
         {parseInt(searchParams.page) !== pageTotal && (
-          <PaginationItem onClick={() => onNext(parseInt(searchParams.page) + 1 )}>
-            <img src={icArrow} style={{transform: 'rotate(-90deg)'}} />
+          <PaginationItem onClick={() => onNext(parseInt(searchParams.page) + 1)}>
+            <img src={icArrow} style={{ transform: 'rotate(-90deg)' }} />
           </PaginationItem>
         )}
       </PaginationList>

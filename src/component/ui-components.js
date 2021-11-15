@@ -117,12 +117,12 @@ font-size:13px;
 
 export const IconText = styled.div`
   display: flex;
-  align-items:${({size}) => size === 'lg' ? 'flex-start' : 'center'};
-  ${({size}) => size === 'lg' ? 'margin-bottom: 10px;' : ''}
+  align-items:${({ size }) => size === 'lg' ? 'flex-start' : 'center'};
+  ${({ size }) => size === 'lg' ? 'margin-bottom: 10px;' : ''}
   > img {
-    margin-right: ${({size}) => size === 'lg' ? '3px' : '10px'};
-    width: ${({size}) => size === 'lg' ? '30px' : '20px'};
-    ${({size}) => size === 'lg' ? 'margin-top: -2px;' : ''}
+    margin-right: ${({ size }) => size === 'lg' ? '3px' : '10px'};
+    width: ${({ size }) => size === 'lg' ? '30px' : '20px'};
+    ${({ size }) => size === 'lg' ? 'margin-top: -2px;' : ''}
   }
 `;
 

@@ -2,8 +2,10 @@
 import React from 'react';
 import { Loader } from "@googlemaps/js-api-loader"
 import { useLocation, useNavigate } from "react-router-dom";
-import { ContentWrapper, IconText, BriefText,
-  H1, ButtonWhite, ButtonMain } from "@/component/ui-components";
+import {
+  ContentWrapper, IconText, BriefText,
+  H1, ButtonWhite, ButtonMain
+} from "@/component/ui-components";
 import Breadcrumb from "@/component/Breadcrumb/Breadcrumb";
 import NotFound from '@/container/NotFound/NotFound';
 import iconMapMark from '@/images/Marker.svg';
@@ -12,7 +14,7 @@ import iconClock from '@/images/Clock.svg';
 import iconInfo from '@/images/Info.svg';
 import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
-import { useAxiosGet, renderImg, formatDate, goToPage } from "@/common";
+import { useAxiosGet, renderImg, formatDate } from "@/common";
 import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper } from "./style";
 
 const starByText = {
@@ -54,24 +56,24 @@ const Page = () => {
   const [_, type, id] = location.pathname.split('/');
 
   const goCategory = (c) => {
-    goToPage({pathname: `/${type}`, search: `?c=${c}`}, navigate);
+    navigate({ pathname: `/${type}`, search: `?c=${c}` });
   };
 
   React.useEffect(() => {
-    query({type, id}).then((res) => {
+    query({ type, id }).then((res) => {
       setData(res[0]);
     });
   }, []);
   React.useEffect(() => {
     if (data && data.Position) {
-      const {PositionLon, PositionLat} = data.Position;
+      const { PositionLon, PositionLat } = data.Position;
       let map;
-    
+
       const loader = new Loader({
         apiKey: "AIzaSyDXnsysqJjsQX_Pv2ig4e5n1Ea4p53mgk8",
         version: "weekly",
       });
-      
+
       loader.load().then(() => {
         map = new google.maps.Map(document.getElementById("map"), {
           center: { lat: PositionLat, lng: PositionLon },
@@ -92,12 +94,12 @@ const Page = () => {
     <ContentWrapper>
       <MainCard>
         <Breadcrumb title={data.Name} />
-        <FigureContainer style={{backgroundImage: renderImg(type, data.Picture.PictureUrl1 || '')}} />
+        <FigureContainer style={{ backgroundImage: renderImg(type, data.Picture.PictureUrl1 || '') }} />
         <MainInfoWrapper>
           <div>
             <H1>{data.Name}</H1>
             <InlineInfo>
-              <IconText style={{marginRight: 20}}>
+              <IconText style={{ marginRight: 20 }}>
                 <img src={iconMapMark} style={{ marginRight: 8 }} />
                 <BriefText>{data.Address || data.Location || data.City}</BriefText>
               </IconText>
@@ -139,7 +141,7 @@ const Page = () => {
             {data.WebsiteUrl && <ButtonMain>官方網站</ButtonMain>}
           </div>
           <div className="mapWrapper">
-            <div id="map" style={{height: "100%"}} />
+            <div id="map" style={{ height: "100%" }} />
           </div>
         </MainInfoWrapper>
       </MainCard>
