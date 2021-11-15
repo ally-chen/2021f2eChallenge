@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/2021f2eChallenge/static/css/main.99bb390a.chunk.css",
-    "main.js": "/2021f2eChallenge/static/js/main.f6083399.chunk.js",
-    "main.js.map": "/2021f2eChallenge/static/js/main.f6083399.chunk.js.map",
+    "main.css": "/2021f2eChallenge/static/css/main.7f666220.chunk.css",
+    "main.js": "/2021f2eChallenge/static/js/main.5f4458c3.chunk.js",
+    "main.js.map": "/2021f2eChallenge/static/js/main.5f4458c3.chunk.js.map",
     "runtime-main.js": "/2021f2eChallenge/static/js/runtime-main.7aa701ea.js",
     "runtime-main.js.map": "/2021f2eChallenge/static/js/runtime-main.7aa701ea.js.map",
-    "static/js/2.4171733e.chunk.js": "/2021f2eChallenge/static/js/2.4171733e.chunk.js",
-    "static/js/2.4171733e.chunk.js.map": "/2021f2eChallenge/static/js/2.4171733e.chunk.js.map",
+    "static/js/2.36190e08.chunk.js": "/2021f2eChallenge/static/js/2.36190e08.chunk.js",
+    "static/js/2.36190e08.chunk.js.map": "/2021f2eChallenge/static/js/2.36190e08.chunk.js.map",
     "static/js/3.133cbff3.chunk.js": "/2021f2eChallenge/static/js/3.133cbff3.chunk.js",
     "static/js/3.133cbff3.chunk.js.map": "/2021f2eChallenge/static/js/3.133cbff3.chunk.js.map",
     "index.html": "/2021f2eChallenge/index.html",
-    "static/css/main.99bb390a.chunk.css.map": "/2021f2eChallenge/static/css/main.99bb390a.chunk.css.map",
-    "static/js/2.4171733e.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.4171733e.chunk.js.LICENSE.txt",
+    "static/css/main.7f666220.chunk.css.map": "/2021f2eChallenge/static/css/main.7f666220.chunk.css.map",
+    "static/js/2.36190e08.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.36190e08.chunk.js.LICENSE.txt",
     "static/media/404.77e0e449.svg": "/2021f2eChallenge/static/media/404.77e0e449.svg",
     "static/media/Clock.c2025e22.svg": "/2021f2eChallenge/static/media/Clock.c2025e22.svg",
     "static/media/Info.bbe798a5.svg": "/2021f2eChallenge/static/media/Info.bbe798a5.svg",
@@ -20,8 +20,11 @@
     "static/media/Price.c150c251.svg": "/2021f2eChallenge/static/media/Price.c150c251.svg",
     "static/media/Saly-14.2f89c114.png": "/2021f2eChallenge/static/media/Saly-14.2f89c114.png",
     "static/media/Saly-15.613c71a2.png": "/2021f2eChallenge/static/media/Saly-15.613c71a2.png",
+    "static/media/Saly-17.242b38d8.png": "/2021f2eChallenge/static/media/Saly-17.242b38d8.png",
     "static/media/Star.c5d13687.svg": "/2021f2eChallenge/static/media/Star.c5d13687.svg",
+    "static/media/bicycle.e414760d.png": "/2021f2eChallenge/static/media/bicycle.e414760d.png",
     "static/media/boat.35053a66.png": "/2021f2eChallenge/static/media/boat.35053a66.png",
+    "static/media/bus.3b221b69.png": "/2021f2eChallenge/static/media/bus.3b221b69.png",
     "static/media/cloud-blur.3bd49a28.png": "/2021f2eChallenge/static/media/cloud-blur.3bd49a28.png",
     "static/media/cloud.4d04c5e0.png": "/2021f2eChallenge/static/media/cloud.4d04c5e0.png",
     "static/media/dropdown-arrow.5d45c446.svg": "/2021f2eChallenge/static/media/dropdown-arrow.5d45c446.svg",
@@ -37,8 +40,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.7aa701ea.js",
-    "static/js/2.4171733e.chunk.js",
-    "static/css/main.99bb390a.chunk.css",
-    "static/js/main.f6083399.chunk.js"
+    "static/js/2.36190e08.chunk.js",
+    "static/css/main.7f666220.chunk.css",
+    "static/js/main.5f4458c3.chunk.js"
   ]
 }
