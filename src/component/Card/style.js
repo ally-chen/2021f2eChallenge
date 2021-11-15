@@ -37,6 +37,9 @@ ${H3} {
 ${desktopMedia(`
   padding: 20px 18px 27px;
   margin-bottom: 76px;
+  ${FourColsWrapper} &{
+    padding: 20px 18px 27px;
+  }
 `)};
 `;
 
@@ -51,5 +54,8 @@ ${FourColsWrapper} &{
 }
 ${desktopMedia(`
   height: 208px;
+  ${FourColsWrapper} &{
+    height: 208px;
+  }
 `)};
 `;

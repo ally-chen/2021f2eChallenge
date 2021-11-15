@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import {
   FullContainer, ContentWrapper, ButtonMain, SearchBoard, FlexBetween,
-  H2, H4, TripleColsWrapper, FourColsWrapper, AlignCenter
+  H2, H4, FourColsWrapper, AlignCenter
 } from "@/component/ui-components";
 import imgHomeLogo from "@/images/home-logo.svg";
 import imgCloud from "@/images/cloud.png";
@@ -20,7 +20,7 @@ import imgBicycle from "@/images/bicycle.png";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Card from "@/component/Card/Card";
 import { cities } from "@/const";
-import { useAxiosGet, useIsMobileEnv } from "@/common";
+import { useAxiosGet, useIsMobileEnv, renderGrids } from "@/common";
 import { OverwriteBody, HomeLogo, Slogan, Deco, QuickLinks, SimpleCard } from './style';
 
 const stayIcons = [icStay1, icStay2, icStay3, icStay4];
@@ -124,14 +124,7 @@ const Home = () => {
               type="sites" />
           ))}
         </Slider> */}
-        <TripleColsWrapper>
-          {homeData.sites.map((one) => (
-            <Card
-              key={one.ID}
-              data={{ title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
-              type="sites" />
-          ))}
-        </TripleColsWrapper>
+        {renderGrids(homeData.sites, 'sites')}
         <AlignCenter><Link to="sites"><ButtonMain>看更多景點</ButtonMain></Link></AlignCenter>
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
@@ -140,14 +133,7 @@ const Home = () => {
       </FullContainer>
       <ContentWrapper>
         <AlignCenter><H2>最新活動</H2></AlignCenter>
-        <TripleColsWrapper>
-          {homeData.events.map((one) => (
-            <Card
-              key={one.ID}
-              data={{ title: one.Name, location: one.City || one.Location || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
-              type="events" />
-          ))}
-        </TripleColsWrapper>
+        {renderGrids(homeData.events, 'events')}
         <AlignCenter><Link to="events"><ButtonMain>看更多活動</ButtonMain></Link></AlignCenter>
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
@@ -156,14 +142,7 @@ const Home = () => {
       </FullContainer>
       <ContentWrapper>
         <AlignCenter><H2>就要吃美食</H2></AlignCenter>
-        <FourColsWrapper>
-          {homeData.food.map((one) => (
-            <Card
-              key={one.ID}
-              data={{ title: one.Name, location: one.City || one.Address.substr(0, 3), link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
-              type="food" />
-          ))}
-        </FourColsWrapper>
+        {renderGrids(homeData.food, 'food')}
         <AlignCenter><Link to="food"><ButtonMain>尋找更多美食</ButtonMain></Link></AlignCenter>
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>

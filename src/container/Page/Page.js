@@ -4,7 +4,7 @@ import { Loader } from "@googlemaps/js-api-loader"
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ContentWrapper, IconText, BriefText, FlexBetween,
-  H1, ButtonWhite, ButtonMain, FullContainer
+  H1, H2, ButtonWhite, ButtonMain, FullContainer
 } from "@/component/ui-components";
 import Breadcrumb from "@/component/Breadcrumb/Breadcrumb";
 import Empty from "@/component/Empty/Empty";
@@ -15,7 +15,8 @@ import iconClock from '@/images/Clock.svg';
 import iconInfo from '@/images/Info.svg';
 import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
-import { useAxiosGet, renderImg, formatDate } from "@/common";
+import { useAxiosGet, renderImg, formatDate, renderGrids } from "@/common";
+import { textByType } from "@/const";
 import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper, DetailWrapper } from "./style";
 
 const starByText = {
@@ -26,38 +27,35 @@ const starByText = {
   '五星級': 5,
 };
 
-const textByType = {
-  sites: {
-    priceKey: 'TicketInfo',
-    priceEmpty: '依現場為主',
-    timeEmpty: '依現場為主',
-  },
-  events: {
-    priceKey: 'Charge',
-    priceEmpty: '無',
-    timeEmpty: '依現場營業時間為準',
-    urlEmpty: '未提供'
-  },
-  stay: {
-    priceKey: 'Spec',
-    priceEmpty: '請洽旅宿業者',
-    parkingEmpty: '請洽旅宿業者',
-    infoEmpty: '依現場為主'
-  },
-  food: {
-    timeEmpty: '依現場營業時間為準'
-  }
-};
-
 const Page = () => {
   const navigate = useNavigate();
   const { type, id } = useParams();
   const [data, setData] = React.useState(null);
+  const [relatedData, setRelatedData] = React.useState(null);
   const { query } = useAxiosGet();
+  const text = textByType[type];
+  const relatedTopic = Object.keys(textByType).filter((n) => n !== type);
 
   if (!/sites|food|stay|events/.test(type)) {
     return <NotFound />;
   }
+
+  const getRelatedData = (latitude, longitude) => {
+    Promise.all(relatedTopic.map((topic) => query({
+      type: topic,
+      fields: textByType[topic].queryFields,
+      length: topic === 'food' ? 4 : 3,
+      nearby: {latitude, longitude}
+    }))).then((results) => {
+      console.log('res', results);
+      const relatedObj = {};
+      relatedTopic.forEach((n, i) => {
+        relatedObj[n] = results[i];
+      });
+      console.log('relatedObj', relatedObj);
+      setRelatedData(relatedObj);
+    });
+  };
 
   const goCategory = (c) => {
     navigate({ pathname: `/${type}`, search: `?c=${c}` });
@@ -88,6 +86,7 @@ const Page = () => {
           title: data.Name,
         });
       });
+      getRelatedData(PositionLat, PositionLon);
     }
   }, [data]);
 
@@ -97,7 +96,14 @@ const Page = () => {
     });
   }, []);
 
-  const text = textByType[type];
+  React.useEffect(() => {
+    if (id) {
+      console.log('go', id);
+      window.scrollTo({
+        top: 0
+      });
+    }
+  }, [id]);
 
   return (
     <ContentWrapper>
@@ -165,6 +171,15 @@ const Page = () => {
           {data === undefined && <Empty text="找不到這筆資料，請重新搜尋。" />}
         </FullContainer>
       )}
+      {relatedTopic.map((topic) => relatedData && relatedData[topic] ? (
+        <section key={topic}>
+          <FlexBetween>
+            <H2>{textByType[topic].relatedTitle}</H2>
+            <ButtonMain onClick={() => navigate(`/${topic}?$spatialFilter=nearby(${data.Position.PositionLat},${data.Position.PositionLon},10000)`)}>更多附近{textByType[topic].label}</ButtonMain>
+          </FlexBetween>
+          {renderGrids(relatedData[topic], topic)}
+        </section>
+      ) : null)}
     </ContentWrapper>
   );
 };

@@ -1,11 +1,11 @@
+import React from 'react';
 import {
   ContentWrapper, ButtonMain, SearchBoard, PageTop, FlexBetween,
-  H1, TripleColsWrapper, AlignCenter, FullContainer
+  H1, AlignCenter, FullContainer
 } from "@/component/ui-components";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
-import Card from "@/component/Card/Card";
 import Empty from "@/component/Empty/Empty";
-import { useSearch, useIsMobileEnv } from "@/common";
+import { useSearch, useIsMobileEnv, renderGrids } from "@/common";
 import { textByType, cities } from "@/const";
 
 const List = () => {
@@ -18,6 +18,12 @@ const List = () => {
     onSearch,
     Pagination
   } = useSearch();
+
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0
+    });
+  }, []);
 
   const isMobile = useIsMobileEnv();
   const text = textByType[type];
@@ -45,20 +51,7 @@ const List = () => {
           </FlexBetween>
         </SearchBoard>
       </PageTop>
-      {data.length > 0 ? (
-        <TripleColsWrapper>
-          {data.map((one) => one.Name ? (
-            <Card
-              key={one.ID}
-              data={{
-                title: one.Name,
-                location: one.City || one.Location || one.Address.substr(0, 3),
-                link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
-              }}
-              type={type} />
-          ) : <div />)}
-        </TripleColsWrapper>
-      ) : <FullContainer style={{height: 'auto'}}><Empty text={text.notMatch} /></FullContainer>}
+      {data.length > 0 ? renderGrids(data, type) : <FullContainer style={{height: 'auto'}}><Empty text={text.noMatch} /></FullContainer>}
       <Pagination />
     </ContentWrapper>
   );

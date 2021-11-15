@@ -26,37 +26,61 @@ export const colors = {
 
 export const textByType = {
   sites: {
+    label: '景點',
     pageTitle: '找景點',
     searchField1: '全台景點',
     searchField2: ['', '歷史文化', '戶外踏青', '藍色水岸', '宗教巡禮', '軍旅探索', '夜市商圈', '風景區'],
     searchField2All: '所有景點',
     total: (countsNum) => `${countsNum} 個景點`,
-    notMatch: '沒有符合的景點，\n再換其他條件試試吧！'
-  },
-  stay: {
-    pageTitle: '找住宿',
-    searchField1: '全台旅宿',
-    searchField2: ['', '一般旅館', '國際觀光旅館', '一般觀光旅館', '民宿'],
-    searchField2All: '所有類型',
-    total: (countsNum) => `共 ${countsNum} 家`,
-    notMatch: '沒有符合的旅宿，\n再換其他條件試試吧！'
+    noMatch: '沒有符合的景點，\n再換其他條件試試吧！',
+    relatedTitle: '附近景點',
+    priceKey: 'TicketInfo',
+    priceEmpty: '依現場為主',
+    timeEmpty: '依現場為主',
+    queryFields: 'ID,Name,City,Address,Picture'
   },
   events: {
+    label: '活動',
     pageTitle: '找活動',
     searchField1: '全台活動',
     searchField2: ['', '節慶活動', '藝文活動', '年度活動', '自行車活動', '遊憩活動', '活動快報', '其他'],
     searchField2All: '所有活動',
     total: (countsNum) => `共 ${countsNum} 項`,
-    notMatch: '沒有符合的活動，\n再換其他條件試試吧！'
+    noMatch: '沒有符合的活動，\n再換其他條件試試吧！',
+    relatedTitle: '附近活動',
+    priceKey: 'Charge',
+    priceEmpty: '無',
+    timeEmpty: '依現場營業時間為準',
+    urlEmpty: '未提供',
+    queryFields: 'ID,Name,City,Location,Address,Picture,StartTime,EndTime'
   },
   food: {
+    label: '美食',
     pageTitle: '找美食',
     searchField1: '全台美食',
     searchField2: ['', '異國料理', '中式美食', '地方特產', '甜點冰品', '夜市小吃', '素食', '伴手禮', '其他'],
     searchField2All: '所有美食',
     total: (countsNum) => `${countsNum} 項美食`,
-    notMatch: '沒有符合的美食，\n再換其他條件試試吧！'
-  }
+    noMatch: '沒有符合的美食，\n再換其他條件試試吧！',
+    relatedTitle: '附近美食',
+    timeEmpty: '依現場營業時間為準',
+    queryFields: 'ID,Name,City,Address,Picture'
+  },
+  stay: {
+    label: '住宿',
+    pageTitle: '找住宿',
+    searchField1: '全台旅宿',
+    searchField2: ['', '一般旅館', '國際觀光旅館', '一般觀光旅館', '民宿'],
+    searchField2All: '所有類型',
+    total: (countsNum) => `共 ${countsNum} 家`,
+    noMatch: '沒有符合的旅宿，\n再換其他條件試試吧！',
+    relatedTitle: '推薦住宿',
+    priceKey: 'Spec',
+    priceEmpty: '請洽旅宿業者',
+    parkingEmpty: '請洽旅宿業者',
+    infoEmpty: '依現場為主',
+    queryFields: 'ID,Name,City,Address,Picture'
+  },
 };
 
 // https://gist.motc.gov.tw/gist_api/V3/Map/Basic/City?$format=JSON

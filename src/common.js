@@ -8,7 +8,8 @@ import imgEmptyStay from "@/images/placeholder-stay.png";
 import imgEmptyEvents from "@/images/placeholder-events.png";
 import icArrow from '@/images/dropdown-arrow.svg';
 import { useLocation, useNavigate } from "react-router-dom";
-import { PaginationList, PaginationItem } from '@/component/ui-components';
+import { TripleColsWrapper, FourColsWrapper, PaginationList, PaginationItem } from '@/component/ui-components';
+import Card from "@/component/Card/Card";
 import { apiRoot, auth, alias } from "@/const";
 
 const imgPlaceholder = {
@@ -89,7 +90,7 @@ export const useAxiosGet = () => {
     id,
     category,
     fields,
-    geo,
+    nearby,
   }) => {
     params.delete('p');
     params.delete('c');
@@ -102,6 +103,7 @@ export const useAxiosGet = () => {
       offset = 0;
     }
     let others = searchStr ? searchStr.substr(1, searchStr.length).replace('24filter', '$filter') : '';
+    others = others.replace('24spatialFilter', '$spatialFilter');
     let responseData = null;
     let classFilterString = category ? `Class eq '${category}'` : '';
     if (type === 'events') {
@@ -132,7 +134,7 @@ export const useAxiosGet = () => {
       fields ? `$select=${fields}&` : '',
       length ? `$top=${length}&` : '',
       offset ? `$skip=${offset}&` : '',
-      geo ? `$spatialFilter=nearby(${geo.latitude},${geo.longitude},10000)&` : '',
+      nearby ? `$spatialFilter=nearby(${nearby.latitude},${nearby.longitude},10000)&` : '',
       filters ? `$filter=${filters}&` : '',
       others ? `${others}&` : '',
       '$format=JSON'
@@ -307,4 +309,36 @@ export const useSearch = () => {
     onSearch,
     Pagination
   }
+};
+
+export const renderGrids = (listData, type) => {
+  if (type === 'food') {
+    return (
+      <FourColsWrapper>
+        {listData.map((one) => (
+          <Card
+            key={one.ID}
+            data={{
+              title: one.Name,
+              location: one.City || one.Address.substr(0, 3),
+              link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
+            type="food" />
+        ))}
+      </FourColsWrapper>
+    );
+  }
+  return (
+    <TripleColsWrapper>
+      {listData.map((one) => one.Name ? (
+        <Card
+          key={one.ID}
+          data={{
+            title: one.Name,
+            location: one.City || one.Location || one.Address.substr(0, 3),
+            link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
+          }}
+          type={type} />
+      ) : <div> </div>)}
+    </TripleColsWrapper>
+  );
 };
