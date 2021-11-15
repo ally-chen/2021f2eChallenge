@@ -42,6 +42,7 @@ padding: 13px 17px 15px;
 margin: auto;
 max-width: 100%;
 font-size: 18px;
+margin-top: 40px;
 ${ButtonMain} {
   min-width: 146px;
 }

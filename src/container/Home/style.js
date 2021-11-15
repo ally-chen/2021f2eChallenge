@@ -56,10 +56,10 @@ export const HomeLogo = styled.img`
 export const Slogan = styled.div`
     color: #000;
     font-size: 22px;
-    margin: 12px 0 40px;
+    margin: 12px 0 0;
     ${desktopMedia(`
         font-size: 24px;
-        margin: 40px 0 36px;
+        margin: 40px 0 0;
     `)};
 `;
 
@@ -89,14 +89,6 @@ ${({ desktop }) => desktopMedia(`
 `)};
 `;
 
-export const QuickLinks = styled.div`
-display: flex;
-justify-content: space-between;
-> * {
-    flex-basis: calc(50% - 14px);
-}
-`;
-
 export const SimpleCard = styled.div`
 background: linear-gradient(180deg, rgba(239, 239, 239, 0) 0%, rgba(206, 206, 206, 0.2) 100%), #FFFFFF;
 box-shadow: 8px 48px 35px -13px rgba(0, 0, 0, 0.25), inset -4px -4px 3px -2px rgba(0, 0, 0, 0.25);
@@ -116,4 +108,29 @@ img {
     width: 110px;
 }
 `)}
+`;
+
+export const QuickLinks = styled.div`
+display: flex;
+justify-content: space-between;
+max-width: 920px;
+margin: auto;
+> * {
+    flex-basis: calc(50% - 14px);
+    &${SimpleCard} {
+      padding-top: 20px;
+      img {
+          width: 75%;
+      }
+      h4 {
+        margin: 0 0 1em;
+      }
+      ${desktopMedia(`
+      padding: 30px 0;
+      img {
+          width: 300px;
+      }
+      `)}
+    }
+}
 `;

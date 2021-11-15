@@ -6,6 +6,7 @@ import {
 import { PageContextProvider } from '@/store/pageStore';
 import { LocationContextProvider } from '@/store/locationStore';
 import Menu from '@/component/Menu/Menu';
+import Footer from '@/component/Footer/Footer';
 import NotFound from '@/container/NotFound/NotFound';
 import Home from '@/container/Home/Home';
 import Page from '@/container/Page/Page';
@@ -26,6 +27,7 @@ function App() {
             <Route path=":type/:id" element={<Page />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
+          <Footer />
         </Router>
       </PageContextProvider>
     </LocationContextProvider>

@@ -15,6 +15,8 @@ import icStay2 from "@/images/icon-stay-2.png";
 import icStay3 from "@/images/icon-stay-3.png";
 import icStay4 from "@/images/icon-stay-4.png";
 import imgBoat from "@/images/boat.png";
+import imgBus from "@/images/bus.png";
+import imgBicycle from "@/images/bicycle.png";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Card from "@/component/Card/Card";
 import { cities } from "@/const";
@@ -185,14 +187,24 @@ const Home = () => {
       </ContentWrapper>
       <FullContainer style={{ height: 'auto' }}>
         <Deco src={imgCloudBlur} desktop={{ width: 530, left: -250, top: -20 }} mobile={{ left: -300, bottom: 30 }} style={{ transform: 'scaleX(-1)' }} />
-        <Deco src={imgCloudBlur} desktop={{ width: 530, right: -330, top: 180 }} mobile={{ right: -300, bottom: 30 }} />
-        <Deco src={imgBoat} desktop={{ width: 276, right: 80, top: 180 }} mobile={{ width: 143, right: -34, bottom: -50 }} />
+        <Deco src={imgCloudBlur} desktop={{ width: 530, right: -330, top: 220 }} mobile={{ right: -300, bottom: 30 }} />
+        <Deco src={imgBoat} desktop={{ width: 276, right: 80, top: 120 }} mobile={{ width: 143, right: -34, bottom: -50 }} />
       </FullContainer>
       <ContentWrapper>
         <AlignCenter><H2>在地暢遊</H2></AlignCenter>
         <QuickLinks>
-          <div>一般旅館</div>
-          <div>一般旅館</div>
+          <SimpleCard>
+            <div>
+              <img src={imgBicycle} />
+              <H4>自行車道查詢</H4>
+            </div>
+          </SimpleCard>
+          <SimpleCard>
+            <div>
+              <img src={imgBus} />
+              <H4>全台公車查詢</H4>
+            </div>
+          </SimpleCard>
         </QuickLinks>
       </ContentWrapper>
     </>

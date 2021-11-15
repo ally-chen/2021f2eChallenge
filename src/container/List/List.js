@@ -1,9 +1,10 @@
 import {
   ContentWrapper, ButtonMain, SearchBoard, PageTop, FlexBetween,
-  H1, TripleColsWrapper, AlignCenter
+  H1, TripleColsWrapper, AlignCenter, FullContainer
 } from "@/component/ui-components";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Card from "@/component/Card/Card";
+import Empty from "@/component/Empty/Empty";
 import { useSearch, useIsMobileEnv } from "@/common";
 import { textByType, cities } from "@/const";
 
@@ -44,18 +45,20 @@ const List = () => {
           </FlexBetween>
         </SearchBoard>
       </PageTop>
-      <TripleColsWrapper>
-        {data.map((one) => one.Name ? (
-          <Card
-            key={one.ID}
-            data={{
-              title: one.Name,
-              location: one.City || one.Location || one.Address.substr(0, 3),
-              link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
-            }}
-            type={type} />
-        ) : <div />)}
-      </TripleColsWrapper>
+      {data.length > 0 ? (
+        <TripleColsWrapper>
+          {data.map((one) => one.Name ? (
+            <Card
+              key={one.ID}
+              data={{
+                title: one.Name,
+                location: one.City || one.Location || one.Address.substr(0, 3),
+                link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
+              }}
+              type={type} />
+          ) : <div />)}
+        </TripleColsWrapper>
+      ) : <FullContainer style={{height: 'auto'}}><Empty text={text.notMatch} /></FullContainer>}
       <Pagination />
     </ContentWrapper>
   );

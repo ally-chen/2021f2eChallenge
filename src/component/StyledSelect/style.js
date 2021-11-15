@@ -14,6 +14,10 @@ font-size: 18px;
 line-height: 25px;
 padding: 12.5px;
 appearance: none;
+&:focus {
+  background: linear-gradient(180deg, rgba(239, 239, 239, 0) 0%, rgba(206, 206, 206, 0.2) 100%), #F5F5F5;
+  box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.25), inset 3px 2px 5px rgba(0, 0, 0, 0.3);
+}
 ${SearchBoard} &{
   width: calc(50% - 5px);
   margin-bottom: 10px;
