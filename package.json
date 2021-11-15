@@ -2,7 +2,7 @@
   "name": "round1",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ally-chen.github.io/2021f2eChallenge",
+  "homepage": "https://ally-chen.github.io/2021f2eChallenge/",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@googlemaps/js-api-loader": "^1.12.9",
