@@ -6,9 +6,8 @@ import imgEmptySites from "@/images/placeholder-sites.png";
 import imgEmptyFood from "@/images/placeholder-food.png";
 import imgEmptyStay from "@/images/placeholder-stay.png";
 import imgEmptyEvents from "@/images/placeholder-events.png";
-import icArrow from '@/images/dropdown-arrow.svg';
-import { useLocation, useNavigate } from "react-router-dom";
-import { TripleColsWrapper, FourColsWrapper, PaginationList, PaginationItem } from '@/component/ui-components';
+import { useLocation } from "react-router-dom";
+import { TripleColsWrapper, FourColsWrapper } from '@/component/ui-components';
 import Card from "@/component/Card/Card";
 import { apiRoot, auth, alias } from "@/const";
 
@@ -104,6 +103,7 @@ export const useAxiosGet = () => {
     }
     let others = searchStr ? searchStr.substr(1, searchStr.length).replace('24filter', '$filter') : '';
     others = others.replace('24spatialFilter', '$spatialFilter');
+    console.log('others', others);
     let responseData = null;
     let classFilterString = category ? `Class eq '${category}'` : '';
     if (type === 'events') {
@@ -165,157 +165,11 @@ export const formatDate = (timeString) => {
   return moment(timeString).format('YYYY-MM-DD');
 };
 
-export const useSearch = () => {
-  const { query } = useAxiosGet();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname, search } = location;
-  const [_, currentType] = pathname.split('/');
-  let params = new URLSearchParams(search);
-  const city = params.get('city') || '';
-  const category = params.get('c') || '';
-  const urlPage = params.get('p') || 1;
-  const [data, setData] = React.useState([]);
-  const [counts, setCounts] = React.useState(0);
-  const [pageTotal, setPageTotal] = React.useState(0);
-  const [pageRound, setPageRound] = React.useState({
-    current: 1,
-    total: 1,
-  });
-  const [searchParams, setSearchParams] = React.useState({
-    city,
-    category,
-    page: urlPage
-  });
-
-  const getData = (config) => {
-    query({ type: currentType, fields: `ID,Name,City,Address,Picture${currentType === 'events' ? ',Location' : ''}`, length: 12, ...config }).then((res) => {
-      if (res.length % 12 !== 0) {
-        setData(res.concat(Array.from({ length: res.length % 12 }, (_, i) => ({ ID: i }))));
-      } else {
-        setData(res);
-      }
-    });
-  };
-
-  const getLength = (config) => {
-    const { page, ...others } = config;
-    query({ type: currentType, fields: 'ID', ...others }).then((res) => {
-      setCounts(res.length);
-    });
-  };
-
-  const onSearch = () => {
-    getData(searchParams);
-    getLength(searchParams);
-    let searchString = '?';
-    if (searchParams.city) {
-      searchString += `city=${searchParams.city}`;
-    }
-    if (searchParams.category) {
-      searchString += `&c=${searchParams.category}`;
-    }
-    setSearchParams((prev) => ({ ...prev, page: 1 }));
-    navigate({ search: searchString });
-  };
-
-  React.useEffect(() => {
-    getData({ city, category, page: urlPage });
-    getLength({ city, category });
-  }, []);
-
-  React.useEffect(() => {
-    if (counts) {
-      const pageNumber = Math.ceil(counts / 12);
-      setPageTotal(Math.ceil(counts / 12));
-      setPageRound({ current: Math.ceil(urlPage / 5), total: Math.ceil(pageNumber / 5) });
-    }
-  }, [counts]);
-
-  React.useEffect(() => {
-    if (searchParams) {
-      console.log('searchParams', searchParams);
-    }
-  }, [searchParams]);
-
-  React.useEffect(() => {
-    if (pageRound) {
-      console.log('pageRound', pageRound);
-    }
-  }, [pageRound]);
-
-  const onPageChange = (target) => {
-    params.delete('p');
-    navigate({ search: `${params.toString()}&p=${target}` });
-    setSearchParams((prev) => ({ ...prev, page: target }));
-    getData({ ...searchParams, page: target });
-    const heading = document.querySelector(`h1`);
-    window.scrollTo({
-      top: heading.offsetTop - 60,
-      behavior: 'smooth'
-    });
-  };
-
-  const onPrev = (target) => {
-    onPageChange(target);
-    if (target % 5 === 0 && pageRound.current !== 1) {
-      setPageRound((prev) => ({ ...prev, current: prev.current - 1 }));
-    }
-  };
-
-  const onNext = (target) => {
-    onPageChange(target);
-    if (target % 5 === 1 && pageRound.current < pageRound.total) {
-      setPageRound((prev) => ({ ...prev, current: prev.current + 1 }));
-    }
-  };
-
-  const Pagination = () => {
-    const pageOffset = (pageRound.current - 1) * 5 + 1;
-    const pageItemNumber = pageTotal > 5 ? (pageRound.current < pageRound.total ? 5 : (pageTotal - pageOffset + 1)) : pageTotal;
-    return counts ? (
-      <PaginationList>
-        {parseInt(searchParams.page) !== 1 && (
-          <PaginationItem onClick={() => onPrev(parseInt(searchParams.page) - 1)}>
-            <img src={icArrow} style={{ transform: 'rotate(90deg)' }} />
-          </PaginationItem>
-        )}
-        {Array.from({ length: pageItemNumber },
-          (_, i) => (
-            <PaginationItem
-              className={searchParams.page === (i + pageOffset) ? 'active' : ''}
-              key={i}
-              onClick={searchParams.page === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
-            >
-              {i + pageOffset}
-            </PaginationItem>
-          )
-        )}
-        {parseInt(searchParams.page) !== pageTotal && (
-          <PaginationItem onClick={() => onNext(parseInt(searchParams.page) + 1)}>
-            <img src={icArrow} style={{ transform: 'rotate(-90deg)' }} />
-          </PaginationItem>
-        )}
-      </PaginationList>
-    ) : null;
-  };
-
-  return {
-    currentType,
-    data,
-    counts,
-    searchParams,
-    setSearchParams,
-    onSearch,
-    Pagination
-  }
-};
-
 export const renderGrids = (listData, type) => {
   if (type === 'food') {
     return (
       <FourColsWrapper>
-        {listData.map((one) => (
+        {listData.map((one) => one.Name ? (
           <Card
             key={one.ID}
             data={{
@@ -323,7 +177,7 @@ export const renderGrids = (listData, type) => {
               location: one.City || one.Address.substr(0, 3),
               link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
             type="food" />
-        ))}
+        ) : <div key={one.ID}> </div>)}
       </FourColsWrapper>
     );
   }
@@ -338,7 +192,7 @@ export const renderGrids = (listData, type) => {
             link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
           }}
           type={type} />
-      ) : <div> </div>)}
+      ) : <div key={one.ID}> </div>)}
     </TripleColsWrapper>
   );
 };

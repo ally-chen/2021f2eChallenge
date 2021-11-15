@@ -47,12 +47,12 @@ const Page = () => {
       length: topic === 'food' ? 4 : 3,
       nearby: {latitude, longitude}
     }))).then((results) => {
-      console.log('res', results);
       const relatedObj = {};
       relatedTopic.forEach((n, i) => {
-        relatedObj[n] = results[i];
+        const emptyNumber = results[i].length % (n === 'food' ? 4 : 3);
+        const emptyItem = emptyNumber !== 0 ? Array.from({ length: emptyNumber }, (_, i) => ({ ID: i })) : [];
+        relatedObj[n] = results[i].concat(emptyItem);
       });
-      console.log('relatedObj', relatedObj);
       setRelatedData(relatedObj);
     });
   };
@@ -167,7 +167,7 @@ const Page = () => {
           {data === undefined && <Empty text="找不到這筆資料，請重新搜尋。" />}
         </FullContainer>
       )}
-      {relatedTopic.map((topic) => relatedData && relatedData[topic] ? (
+      {relatedTopic.map((topic) => relatedData && relatedData[topic] && relatedData[topic].length > 0 ? (
         <section key={topic}>
           <FlexBetween>
             <H2>{textByType[topic].relatedTitle}</H2>

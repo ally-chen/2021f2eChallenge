@@ -18,7 +18,6 @@ import imgBoat from "@/images/boat.png";
 import imgBus from "@/images/bus.png";
 import imgBicycle from "@/images/bicycle.png";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
-import Card from "@/component/Card/Card";
 import { cities } from "@/const";
 import { useAxiosGet, useIsMobileEnv, renderGrids } from "@/common";
 import { OverwriteBody, HomeLogo, Slogan, Deco, QuickLinks, SimpleCard } from './style';

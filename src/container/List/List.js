@@ -1,32 +1,150 @@
 import React from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ContentWrapper, ButtonMain, SearchBoard, PageTop, FlexBetween,
-  H1, AlignCenter, FullContainer
+  H1, AlignCenter, FullContainer, PaginationList, PaginationItem
 } from "@/component/ui-components";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Empty from "@/component/Empty/Empty";
-import { useSearch, useIsMobileEnv, renderGrids } from "@/common";
+import icArrow from '@/images/dropdown-arrow.svg';
+import { useIsMobileEnv, useAxiosGet, renderGrids } from "@/common";
 import { textByType, cities } from "@/const";
 
 const List = () => {
-  const {
-    currentType: type,
-    data,
-    counts,
-    searchParams,
-    setSearchParams,
-    onSearch,
-    Pagination
-  } = useSearch();
+  const { query } = useAxiosGet();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname, search } = location;
+  const [_, currentType] = pathname.split('/');
+  let params = new URLSearchParams(search);
+  const urlCity = params.get('city') || '';
+  const urlCategory = params.get('c') || '';
+  const urlPage = params.get('p') || 1;
+  const [data, setData] = React.useState([]);
+  const [counts, setCounts] = React.useState(0);
+  const [pageTotal, setPageTotal] = React.useState(0);
+  const [pageRound, setPageRound] = React.useState({
+    current: 1,
+    total: 1,
+  });
+  const [searchParams, setSearchParams] = React.useState({
+    city: urlCity,
+    category: urlCategory,
+    page: urlPage
+  });
+
+  const getData = (config) => {
+    query({ type: currentType, fields: textByType[currentType].queryFields, length: 12, ...config }).then((res) => {
+      if (res.length % 12 !== 0) {
+        setData(res.concat(Array.from({ length: res.length % 12 }, (_, i) => ({ ID: i }))));
+      } else {
+        setData(res);
+      }
+    });
+  };
+
+  const getLength = (config) => {
+    const { page, ...others } = config;
+    query({ type: currentType, fields: 'ID', ...others }).then((res) => {
+      setCounts(res.length);
+    });
+  };
+
+  const onSearch = () => {
+    let searchString = '?';
+    if (searchParams.city) {
+      searchString += `city=${searchParams.city}`;
+    }
+    if (searchParams.category) {
+      searchString += `&c=${searchParams.category}`;
+    }
+    navigate({ search: searchString });
+    getData(searchParams);
+    getLength(searchParams);
+    setSearchParams((prev) => ({ ...prev, page: 1 }));
+  };
 
   React.useEffect(() => {
+    getData({ city: urlCity, category: urlCategory, page: urlPage });
+    getLength({ city: urlCity, category: urlCategory });
     window.scrollTo({
       top: 0
     });
-  }, []);
+  }, [currentType]);
+
+  React.useEffect(() => {
+    if (counts) {
+      const pageNumber = Math.ceil(counts / 12);
+      setPageTotal(Math.ceil(counts / 12));
+      setPageRound({ current: Math.ceil(urlPage / 5), total: Math.ceil(pageNumber / 5) });
+      console.log('counts', counts);
+    }
+  }, [counts]);
+
+  React.useEffect(() => {
+    if (searchParams) {
+      console.log('searchParams', searchParams);
+    }
+  }, [searchParams]);
+
+  const onPageChange = (target) => {
+    params.delete('p');
+    navigate({ search: `${params.toString()}&p=${target}` });
+    setSearchParams((prev) => ({ ...prev, page: target }));
+    getData({ ...searchParams, page: target });
+    const heading = document.querySelector(`h1`);
+    window.scrollTo({
+      top: heading.offsetTop - 60,
+      behavior: 'smooth'
+    });
+  };
+
+  const onPrev = (target) => {
+    onPageChange(target);
+    if (target % 5 === 0 && pageRound.current !== 1) {
+      setPageRound((prev) => ({ ...prev, current: prev.current - 1 }));
+    }
+  };
+
+  const onNext = (target) => {
+    onPageChange(target);
+    if (target % 5 === 1 && pageRound.current < pageRound.total) {
+      setPageRound((prev) => ({ ...prev, current: prev.current + 1 }));
+    }
+  };
+
+  const Pagination = () => {
+    const pageOffset = (pageRound.current - 1) * 5 + 1;
+    const pageItemNumber = pageTotal > 5 ? (pageRound.current < pageRound.total ? 5 : (pageTotal - pageOffset + 1)) : pageTotal;
+    return counts ? (
+      <PaginationList>
+        {parseInt(searchParams.page) !== 1 && (
+          <PaginationItem onClick={() => onPrev(parseInt(searchParams.page) - 1)}>
+            <img src={icArrow} style={{ transform: 'rotate(90deg)' }} />
+          </PaginationItem>
+        )}
+        {Array.from({ length: pageItemNumber },
+          (_, i) => (
+            <PaginationItem
+              className={searchParams.page === (i + pageOffset) ? 'active' : ''}
+              key={i}
+              onClick={searchParams.page === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
+            >
+              {i + pageOffset}
+            </PaginationItem>
+          )
+        )}
+        {parseInt(searchParams.page) !== pageTotal && (
+          <PaginationItem onClick={() => onNext(parseInt(searchParams.page) + 1)}>
+            <img src={icArrow} style={{ transform: 'rotate(-90deg)' }} />
+          </PaginationItem>
+        )}
+      </PaginationList>
+    ) : null;
+  };
 
   const isMobile = useIsMobileEnv();
-  const text = textByType[type];
+  const text = textByType[currentType];
   return (
     <ContentWrapper>
       <PageTop>
@@ -51,7 +169,7 @@ const List = () => {
           </FlexBetween>
         </SearchBoard>
       </PageTop>
-      {data.length > 0 ? renderGrids(data, type) : <FullContainer style={{height: 'auto'}}><Empty text={text.noMatch} /></FullContainer>}
+      {data.length > 0 ? renderGrids(data, currentType) : <FullContainer style={{height: 'auto'}}><Empty text={text.noMatch} /></FullContainer>}
       <Pagination />
     </ContentWrapper>
   );
