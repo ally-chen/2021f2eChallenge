@@ -112,6 +112,10 @@ const Page = () => {
     }
   }, [id]);
 
+  const categoryList = ['Class', 'Class1', 'Class2', 'Class3']
+  .map((n) => data ? data[n] : '').filter((v) => v) // 濾掉空值
+  .filter((n, i, arr) => arr.indexOf(n) === i); // 濾掉重複
+
   return (
     <ContentWrapper>
       {data ? (
@@ -127,10 +131,7 @@ const Page = () => {
                     <img src={iconMapMark} style={{ marginRight: 8 }} />
                     <BriefText>{data.Location || (data.Address || data.City)}</BriefText>
                   </IconText>
-                  {data.Class && <CategoryLink onClick={() => goCategory(data.Class)}>{data.Class}</CategoryLink>}
-                  {data.Class1 && <CategoryLink onClick={() => goCategory(data.Class1)}>{data.Class1}</CategoryLink>}
-                  {data.Class2 && <CategoryLink onClick={() => goCategory(data.Class2)}>{data.Class2}</CategoryLink>}
-                  {data.Class3 && <CategoryLink onClick={() => goCategory(data.Class3)}>{data.Class3}</CategoryLink>}
+                  {categoryList.map((c) => (<CategoryLink key={c} onClick={() => goCategory(c)}>{c}</CategoryLink>))}
                   {data.Grade && <IconText>{Array.from({ length: starByText[data.Grade] }, (_, i) => <img key={i} src={iconStar} />)}</IconText>}
                 </InlineInfo>
                 {type !== 'stay' && (

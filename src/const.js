@@ -30,7 +30,7 @@ export const textByType = {
     label: '景點',
     pageTitle: '找景點',
     searchField1: '全台景點',
-    searchField2: ['', '歷史文化', '戶外踏青', '藍色水岸', '宗教巡禮', '軍旅探索', '夜市商圈', '風景區'],
+    searchField2: ['', '文化類', '古蹟類', '廟宇類', '生態類', '都會公園類', '體育健身類', '溫泉類', '遊憩類', '國家風景區類', '自然風景類', '其他'],
     searchField2All: '所有景點',
     total: (countsNum) => `${countsNum} 個景點`,
     noMatch: '沒有符合的景點，\n再換其他條件試試吧！',

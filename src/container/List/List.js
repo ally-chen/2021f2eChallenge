@@ -118,26 +118,27 @@ const List = () => {
   const Pagination = () => {
     const pageOffset = (pageRound.current - 1) * 5 + 1;
     const pageItemNumber = pageTotal > 5 ? (pageRound.current < pageRound.total ? 5 : (pageTotal - pageOffset + 1)) : pageTotal;
+    const currentPage = parseInt(searchParams.page);
     return counts ? (
       <PaginationList>
-        {parseInt(searchParams.page) !== 1 && (
-          <PaginationItem onClick={() => onPrev(parseInt(searchParams.page) - 1)}>
+        {currentPage !== 1 && (
+          <PaginationItem onClick={() => onPrev(currentPage - 1)}>
             <img src={icArrow} style={{ transform: 'rotate(90deg)' }} />
           </PaginationItem>
         )}
         {Array.from({ length: pageItemNumber },
           (_, i) => (
             <PaginationItem
-              className={searchParams.page === (i + pageOffset) ? 'active' : ''}
+              className={currentPage === (i + pageOffset) ? 'active' : ''}
               key={i}
-              onClick={searchParams.page === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
+              onClick={currentPage === (i + pageOffset) ? () => { } : () => onPageChange(i + pageOffset)}
             >
               {i + pageOffset}
             </PaginationItem>
           )
         )}
-        {parseInt(searchParams.page) !== pageTotal && (
-          <PaginationItem onClick={() => onNext(parseInt(searchParams.page) + 1)}>
+        {currentPage !== pageTotal && (
+          <PaginationItem onClick={() => onNext(currentPage + 1)}>
             <img src={icArrow} style={{ transform: 'rotate(-90deg)' }} />
           </PaginationItem>
         )}
