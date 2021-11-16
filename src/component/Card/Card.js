@@ -5,11 +5,11 @@ import { renderImg } from '@/common';
 import iconMapMark from '@/images/Marker.svg';
 import { CardWrapper, LinkText, FigureContainer } from './style';
 
-const Card = ({ data, type }) => {
+const Card = ({ data, type, nearby }) => {
   const { title, location, link, figure } = data;
   const navigate = useNavigate();
   const onCardClick = () => {
-    navigate(`/${type}${link}`);
+    navigate(`/${type}${link}`, { state: nearby || null });
   };
   return (
     <CardWrapper onClick={onCardClick} title={title}>
@@ -35,6 +35,7 @@ Card.propTypes = {
     figure: PropTypes.string
   }).isRequired,
   type: PropTypes.string.isRequired,
+  nearby: PropTypes.object
 };
 
 Card.defaultProps = {
@@ -42,4 +43,5 @@ Card.defaultProps = {
     duration: '',
     figure: '',
   },
+  nearby: null
 };

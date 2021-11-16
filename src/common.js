@@ -165,7 +165,7 @@ export const formatDate = (timeString) => {
   return moment(timeString).format('YYYY-MM-DD');
 };
 
-export const renderGrids = (listData, type) => {
+export const renderGrids = (listData, type, nearby) => {
   if (type === 'food') {
     return (
       <FourColsWrapper>
@@ -175,7 +175,9 @@ export const renderGrids = (listData, type) => {
             data={{
               title: one.Name,
               location: one.City || (one.Address ? one.Address.substr(0, 3) : ''),
-              link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '' }}
+              link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '',
+              nearby
+            }}
             type="food" />
         ) : <div key={one.ID}> </div>)}
       </FourColsWrapper>
@@ -189,7 +191,8 @@ export const renderGrids = (listData, type) => {
           data={{
             title: one.Name,
             location: one.City || one.Location ||  (one.Address ? one.Address.substr(0, 3) : ''),
-            link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || ''
+            link: `/${one.ID}`, figure: one.Picture.PictureUrl1 || '',
+            nearby
           }}
           type={type} />
       ) : <div key={one.ID}> </div>)}

@@ -62,6 +62,10 @@ const Page = () => {
     navigate({ pathname: `/${type}`, search: `?c=${c}` });
   };
 
+  const goRelated = (path) => {
+    navigate(path, { state: {name: data.Name, address: data.Address || data.Location} });
+  };
+
   const goOutside = (link) => {
     window.open(link);
   };
@@ -183,7 +187,7 @@ const Page = () => {
         <section key={topic}>
           <FlexBetween>
             <H2>{textByType[topic].relatedTitle}</H2>
-            <ButtonMain onClick={() => navigate(`/${topic}?$spatialFilter=nearby(${data.Position.PositionLat},${data.Position.PositionLon},10000)`)}>更多附近{textByType[topic].label}</ButtonMain>
+            <ButtonMain onClick={() => goRelated(`/${topic}?$spatialFilter=nearby(${data.Position.PositionLat},${data.Position.PositionLon},10000)`)}>更多附近{textByType[topic].label}</ButtonMain>
           </FlexBetween>
           {renderGrids(relatedData[topic], topic)}
         </section>

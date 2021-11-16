@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  ContentWrapper, ButtonMain, SearchBoard, PageTop, FlexBetween,
+  ContentWrapper, ButtonMain, SearchBoard, PageTop, FlexBetween, IconText,
   H1, AlignCenter, FullContainer, PaginationList, PaginationItem
 } from "@/component/ui-components";
 import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Empty from "@/component/Empty/Empty";
+import iconMapMark from '@/images/Marker.svg';
 import icArrow from '@/images/dropdown-arrow.svg';
 import { useIsMobileEnv, useAxiosGet, renderGrids } from "@/common";
 import { textByType, cities } from "@/const";
@@ -21,7 +22,7 @@ const List = () => {
   const urlCategory = params.get('c') || '';
   const urlPage = params.get('p') || 1;
   const urlNearby = params.get('$spatialFilter') || '';
-  const [__, pointLat, pointLon] = urlNearby ? urlNearby.match(/nearby\((.+),(.+),.+\)/) : [];
+  const [nearbyData, setNearbyData] = React.useState(null);
   const [data, setData] = React.useState([]);
   const [counts, setCounts] = React.useState(0);
   const [pageTotal, setPageTotal] = React.useState(0);
@@ -69,6 +70,11 @@ const List = () => {
   React.useEffect(() => {
     getData({ city: urlCity, category: urlCategory, page: urlPage });
     getLength({ city: urlCity, category: urlCategory });
+    setSearchParams({
+      city: urlCity,
+      category: urlCategory,
+      page: urlPage
+    });
     window.scrollTo({
       top: 0
     });
@@ -85,9 +91,18 @@ const List = () => {
 
   React.useEffect(() => {
     if (searchParams) {
-      console.log('searchParams', searchParams);
+      // console.log('searchParams', searchParams);
     }
   }, [searchParams]);
+
+  React.useEffect(() => {
+    if (urlNearby && location.state) {
+      setNearbyData(location.state);
+    }
+    if (!urlNearby) {
+      setNearbyData(null);
+    }
+  }, [urlNearby]);
 
   const onPageChange = (target) => {
     params.delete('p');
@@ -148,16 +163,25 @@ const List = () => {
 
   const isMobile = useIsMobileEnv();
   const text = textByType[currentType];
+  console.log('l', location);
+  const { name, address } = nearbyData || '';
   return (
     <ContentWrapper>
       <PageTop>
-        <AlignCenter><H1>{text.pageTitle}</H1></AlignCenter>
+        <AlignCenter>
+          <H1>{nearbyData ? `${name || ''} 附近的${text.label}` : text.pageTitle}</H1>
+          {nearbyData && nearbyData.address ? (
+            <IconText style={{ display: 'inline-flex' }}>
+              <img src={iconMapMark} style={{ marginRight: 8 }} />
+              {address}
+            </IconText>
+          ) : ''}
+        </AlignCenter>
         <SearchBoard style={{ width: 1000 }}>
           <FlexBetween style={isMobile ? { flexWrap: 'wrap' } : null}>
-            {urlNearby ? (
+            {nearbyData ? (
               <div>
-                ({pointLon.substr(0, 5)}, {pointLat.substr(0, 4)}) 附近的{text.label}
-                {<ButtonMain onClick={() => navigate(`/${currentType}`)} style={{marginLeft: 8}}>返回搜尋</ButtonMain>}
+                {<ButtonMain onClick={() => navigate(`/${currentType}`)} style={{ marginLeft: 8 }}>返回搜尋</ButtonMain>}
               </div>
             ) : (
               <>
@@ -181,7 +205,7 @@ const List = () => {
           </FlexBetween>
         </SearchBoard>
       </PageTop>
-      {data.length > 0 ? renderGrids(data, currentType) : <FullContainer style={{ height: 'auto' }}><Empty text={text.noMatch} /></FullContainer>}
+      {data.length > 0 ? renderGrids(data, currentType, nearbyData) : <FullContainer style={{ height: 'auto' }}><Empty text={text.noMatch} /></FullContainer>}
       <Pagination />
     </ContentWrapper>
   );
