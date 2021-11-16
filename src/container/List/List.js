@@ -8,7 +8,7 @@ import StyledSelect from "@/component/StyledSelect/StyledSelect";
 import Empty from "@/component/Empty/Empty";
 import iconMapMark from '@/images/Marker.svg';
 import icArrow from '@/images/dropdown-arrow.svg';
-import { useIsMobileEnv, useAxiosGet, renderGrids } from "@/common";
+import { useIsMobileEnv, useAxiosGet, renderGrids, useAxios } from "@/common";
 import { textByType, cities } from "@/const";
 
 const List = () => {
@@ -96,8 +96,19 @@ const List = () => {
   }, [searchParams]);
 
   React.useEffect(() => {
-    if (urlNearby && location.state) {
-      setNearbyData(location.state);
+    if (urlNearby) {
+      if (location.state) {
+        setNearbyData(location.state);
+      } else {
+        const [__, pointLat, pointLon] = urlNearby ? urlNearby.match(/nearby\((.+),(.+),.+\)/) : [];
+        useAxios({url: `https://gist.motc.gov.tw/gist_api/V3/Map/GeoLocating/Address/LocationX/${pointLon}/LocationY/${pointLat}?$format=JSON`})
+        .then((res) => {
+          if (res.length > 0) {
+            const geoData = res[0];
+            setNearbyData({ name: '', address: geoData.Address });
+          }
+        });
+      }
     }
     if (!urlNearby) {
       setNearbyData(null);

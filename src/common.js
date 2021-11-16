@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import jsSHA from "jssha";
 import moment from 'moment';
+import { Loader } from "@googlemaps/js-api-loader"
 import imgEmptySites from "@/images/placeholder-sites.png";
 import imgEmptyFood from "@/images/placeholder-food.png";
 import imgEmptyStay from "@/images/placeholder-stay.png";
@@ -10,6 +11,10 @@ import { useLocation } from "react-router-dom";
 import { TripleColsWrapper, FourColsWrapper } from '@/component/ui-components';
 import Card from "@/component/Card/Card";
 import { apiRoot, auth, alias } from "@/const";
+
+export const loader = new Loader({
+  apiKey: auth.gMapKey,
+});
 
 const imgPlaceholder = {
   sites: imgEmptySites,
@@ -103,7 +108,6 @@ export const useAxiosGet = () => {
     }
     let others = searchStr ? searchStr.substr(1, searchStr.length).replace('24filter', '$filter') : '';
     others = others.replace('24spatialFilter', '$spatialFilter');
-    console.log('others', others);
     let responseData = null;
     let classFilterString = category ? `Class eq '${category}'` : '';
     if (type === 'events') {
@@ -159,6 +163,31 @@ export const useAxiosGet = () => {
   return {
     query
   };
+};
+
+export const useAxios = async ({
+  method = 'get',
+  url,
+  ...others
+}) => {
+  const { HMAC, GMTString } = genHMAC();
+  let responseData = null;
+  try {
+    const { data } = await axios({
+      method,
+      url,
+      responseType: 'json',
+      headers: {
+        Authorization: `hmac username="${auth.id}", algorithm="hmac-sha1", headers="x-date", signature="${HMAC}"`,
+        'x-date': GMTString,
+      },
+      ...others
+    });
+    responseData = data;
+  } catch (err) {
+    console.log('api error: ', err);
+  }
+  return responseData;
 };
 
 export const formatDate = (timeString) => {

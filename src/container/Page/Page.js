@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
 import React from 'react';
-import { Loader } from "@googlemaps/js-api-loader"
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ContentWrapper, IconText, BriefText, FlexBetween,
@@ -15,7 +13,7 @@ import iconClock from '@/images/Clock.svg';
 import iconInfo from '@/images/Info.svg';
 import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
-import { useAxiosGet, renderImg, formatDate, renderGrids } from "@/common";
+import { loader, useAxiosGet, renderImg, formatDate, renderGrids } from "@/common";
 import { textByType, auth } from "@/const";
 import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper, DetailWrapper } from "./style";
 
@@ -74,11 +72,6 @@ const Page = () => {
     if (data && data.Position) {
       const { PositionLon, PositionLat } = data.Position;
       let map;
-
-      const loader = new Loader({
-        apiKey: auth.gMapKey,
-        version: "weekly",
-      });
 
       loader.load().then(() => {
         map = new google.maps.Map(ref.current, {

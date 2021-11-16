@@ -171,7 +171,7 @@ const Home = () => {
       <ContentWrapper>
         <AlignCenter><H2>在地暢遊</H2></AlignCenter>
         <QuickLinks>
-          <SimpleCard>
+          <SimpleCard onClick={() => navigate('/bike')}>
             <div>
               <img src={imgBicycle} />
               <H4>自行車道查詢</H4>
