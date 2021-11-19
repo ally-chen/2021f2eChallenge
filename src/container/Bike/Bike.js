@@ -148,7 +148,7 @@ const BikeTop = () => {
   const navigate = useNavigate();
   return (
     <ContentWrapper>
-      <AlignCenter style={{ marginBottom: -30, marginTop: 40 }}>
+      <AlignCenter style={{ marginTop: 40 }}>
         <H1 style={{ marginBottom: 30 }}>騎鐵馬</H1>
         <ButtonWhite onClick={() => navigate('lane')}>自行車道</ButtonWhite>
         <ButtonWhite onClick={() => navigate('search')} style={{marginLeft: 12}}>站點查詢</ButtonWhite>

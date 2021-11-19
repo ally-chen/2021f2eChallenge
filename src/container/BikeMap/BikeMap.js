@@ -177,7 +177,7 @@ const BikeMap = () => {
   }, [locationData]);
 
   return (
-    <MainCard>
+    <MainCard style={{marginTop: 30}}>
       <FlexBetween style={{ marginBottom: 12, flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
         <FlexBetween style={isMobile ? { flexBasis: '100%', marginBottom: 8 } : null}>
           <StyledSelect

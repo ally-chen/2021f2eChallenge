@@ -144,7 +144,7 @@ const BikeLane = () => {
   const laneCity = cities.filter((n) => !/連江縣|新竹市/.test(n.name));
   return (
     <ContentWrapper>
-      <PageTop>
+      <PageTop style={{paddingTop: 0}}>
         <SearchBoard style={{ width: 1000 }}>
           <FlexBetween style={isMobile ? { flexWrap: 'wrap' } : null}>
             <div style={isMobile ? { flexBasis: '100%' } : null}>
