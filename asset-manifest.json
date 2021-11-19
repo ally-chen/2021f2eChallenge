@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/2021f2eChallenge/static/css/main.7f666220.chunk.css",
-    "main.js": "/2021f2eChallenge/static/js/main.1873af73.chunk.js",
-    "main.js.map": "/2021f2eChallenge/static/js/main.1873af73.chunk.js.map",
-    "runtime-main.js": "/2021f2eChallenge/static/js/runtime-main.6015365e.js",
-    "runtime-main.js.map": "/2021f2eChallenge/static/js/runtime-main.6015365e.js.map",
-    "static/js/2.083cf5f0.chunk.js": "/2021f2eChallenge/static/js/2.083cf5f0.chunk.js",
-    "static/js/2.083cf5f0.chunk.js.map": "/2021f2eChallenge/static/js/2.083cf5f0.chunk.js.map",
-    "static/js/3.d06906c2.chunk.js": "/2021f2eChallenge/static/js/3.d06906c2.chunk.js",
-    "static/js/3.d06906c2.chunk.js.map": "/2021f2eChallenge/static/js/3.d06906c2.chunk.js.map",
+    "main.css": "/2021f2eChallenge/static/css/main.ae57a55e.chunk.css",
+    "main.js": "/2021f2eChallenge/static/js/main.48745675.chunk.js",
+    "main.js.map": "/2021f2eChallenge/static/js/main.48745675.chunk.js.map",
+    "runtime-main.js": "/2021f2eChallenge/static/js/runtime-main.c8484c5a.js",
+    "runtime-main.js.map": "/2021f2eChallenge/static/js/runtime-main.c8484c5a.js.map",
+    "static/js/2.950ba314.chunk.js": "/2021f2eChallenge/static/js/2.950ba314.chunk.js",
+    "static/js/2.950ba314.chunk.js.map": "/2021f2eChallenge/static/js/2.950ba314.chunk.js.map",
+    "static/js/3.8ced7cb4.chunk.js": "/2021f2eChallenge/static/js/3.8ced7cb4.chunk.js",
+    "static/js/3.8ced7cb4.chunk.js.map": "/2021f2eChallenge/static/js/3.8ced7cb4.chunk.js.map",
     "index.html": "/2021f2eChallenge/index.html",
-    "static/css/main.7f666220.chunk.css.map": "/2021f2eChallenge/static/css/main.7f666220.chunk.css.map",
-    "static/js/2.083cf5f0.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.083cf5f0.chunk.js.LICENSE.txt",
+    "static/css/main.ae57a55e.chunk.css.map": "/2021f2eChallenge/static/css/main.ae57a55e.chunk.css.map",
+    "static/js/2.950ba314.chunk.js.LICENSE.txt": "/2021f2eChallenge/static/js/2.950ba314.chunk.js.LICENSE.txt",
     "static/media/404.77e0e449.svg": "/2021f2eChallenge/static/media/404.77e0e449.svg",
     "static/media/Clock.c2025e22.svg": "/2021f2eChallenge/static/media/Clock.c2025e22.svg",
     "static/media/Info.bbe798a5.svg": "/2021f2eChallenge/static/media/Info.bbe798a5.svg",
@@ -36,12 +36,13 @@
     "static/media/placeholder-food.10f1d561.png": "/2021f2eChallenge/static/media/placeholder-food.10f1d561.png",
     "static/media/placeholder-sites.20491bfa.png": "/2021f2eChallenge/static/media/placeholder-sites.20491bfa.png",
     "static/media/placeholder-stay.f2a7efa8.png": "/2021f2eChallenge/static/media/placeholder-stay.f2a7efa8.png",
+    "static/media/reload.e498e4df.svg": "/2021f2eChallenge/static/media/reload.e498e4df.svg",
     "static/media/index.css": "/2021f2eChallenge/static/media/tw.24a1e0c8.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.6015365e.js",
-    "static/js/2.083cf5f0.chunk.js",
-    "static/css/main.7f666220.chunk.css",
-    "static/js/main.1873af73.chunk.js"
+    "static/js/runtime-main.c8484c5a.js",
+    "static/js/2.950ba314.chunk.js",
+    "static/css/main.ae57a55e.chunk.css",
+    "static/js/main.48745675.chunk.js"
   ]
 }
