@@ -12,6 +12,11 @@ font-size: 18px;
 `)};
 `;
 
+export const MiniMap = styled.div`
+  height: 200px;
+  border-radius: 40px;
+`;
+
 export const CardWrapper = styled.div`
 background: linear-gradient(180deg, rgba(239, 239, 239, 0) 0%, rgba(206, 206, 206, 0.2) 100%), #FFFFFF;
 box-shadow: 8px 48px 35px -13px rgba(0, 0, 0, 0.25), inset -4px -4px 3px -2px rgba(0, 0, 0, 0.25);

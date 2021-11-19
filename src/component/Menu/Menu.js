@@ -25,6 +25,7 @@ const Menu = () => {
           <li><ButtonWhite onClick={() => onNavItemClick('/events')}>找活動</ButtonWhite></li>
           <li><ButtonWhite onClick={() => onNavItemClick('/food')}>找美食</ButtonWhite></li>
           <li><ButtonWhite onClick={() => onNavItemClick('/stay')}>找住宿</ButtonWhite></li>
+          <li><ButtonWhite onClick={() => onNavItemClick('/bike')}>騎鐵馬</ButtonWhite></li>
           {/* <li><ButtonWhite onClick={() => onNavItemClick('/local')}>在地暢遊</ButtonWhite></li> */}
         </NavList>
       </MenuWrapper>

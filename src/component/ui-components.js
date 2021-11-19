@@ -143,7 +143,21 @@ display: flex;
 justify-content:space-between;
 align-items: center;
 `;
-
+export const TwoColsWrapper = styled.div`
+  display:flex;
+  flex-wrap: wrap;
+  > * {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  ${desktopMedia(`
+  justify-content: space-between;
+    > * {
+      flex-basis: calc(50% - 30px);
+      max-width: calc(50% - 30px);
+    }
+  `)}
+`;
 export const TripleColsWrapper = styled.div`
   display:flex;
   flex-wrap: wrap;
@@ -239,4 +253,15 @@ width: 20px;
 + li {
   margin-left: 10px;
 }
+`;
+
+export const Tag = styled.div`
+  color: ${colors.dark};
+  background: #BBEEC6;
+  border-radius: 20px;
+  padding: 4px 8px;
+  display: inline-block;
+  margin-left: 16px;
+  font-weight: 300;
+  font-size: 14px;
 `;

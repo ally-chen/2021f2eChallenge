@@ -14,6 +14,7 @@ import Page from '@/container/Page/Page';
 import List from '@/container/List/List';
 import Bike from '@/container/Bike/Bike';
 import BikeMap from '@/container/BikeMap/BikeMap';
+import BikeLane from '@/container/BikeLane/BikeLane';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="events" element={<List />} />
               <Route path="bike" element={<Bike />}>
                 <Route path="search" element={<BikeMap />} />
+                <Route path="lane" element={<BikeLane />} />
                 <Route index element={<BikeMap />} />
               </Route>
               <Route path=":type/:id" element={<Page />} />

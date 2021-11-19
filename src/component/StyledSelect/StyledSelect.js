@@ -5,7 +5,7 @@ import { ButtonWhite } from '@/component/ui-components';
 import icArrow from '@/images/dropdown-arrow.svg';
 import { MobileSelect, DropdownWrapper, DropdownList, DropdownListItem } from './style';
 
-const StyledSelect = ({ defaultValue, options, onSelect }) => {
+const StyledSelect = ({ defaultValue, options, onSelect, style }) => {
   const isMobileEnv = useIsMobileEnv();
   const [showDropdown, setShowDropdown] = React.useState(false);
   const selectRef = React.useRef(null);
@@ -34,11 +34,11 @@ const StyledSelect = ({ defaultValue, options, onSelect }) => {
 
   return (
     isMobileEnv ? (
-      <MobileSelect onChange={onDefaultSelect} value={defaultValue}>
+      <MobileSelect onChange={onDefaultSelect} value={defaultValue} style={style}>
         {options.map((opt) => <option value={opt.value} key={opt.value}>{opt.label}</option>)}
       </MobileSelect>
     ) : (
-      <DropdownWrapper ref={selectRef}>
+      <DropdownWrapper ref={selectRef} style={style}>
         <ButtonWhite onClick={() => setShowDropdown((prev) => !prev)}>
           {currentValue}
           <img src={icArrow} />
@@ -59,5 +59,9 @@ export default StyledSelect;
 StyledSelect.propTypes = {
   defaultValue: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  style: PropTypes.object
 };
+StyledSelect.defaultProps = {
+  style: null
+}

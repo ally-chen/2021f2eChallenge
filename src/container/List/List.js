@@ -15,6 +15,7 @@ const List = () => {
   const { query } = useAxiosGet();
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = useIsMobileEnv();
   const { pathname, search } = location;
   const [_, currentType] = pathname.split('/');
   let params = new URLSearchParams(search);
@@ -172,7 +173,6 @@ const List = () => {
     ) : null;
   };
 
-  const isMobile = useIsMobileEnv();
   const text = textByType[currentType];
   console.log('l', location);
   const { name, address } = nearbyData || '';

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import L from 'leaflet';
 import moment from 'moment';
-import { MainCard, H4, AlignCenter, BriefText, ButtonWhite, IconText, ButtonMain, FlexBetween } from '@/component/ui-components';
+import { MainCard, H4, AlignCenter, BriefText, ButtonWhite, IconText, ButtonMain, FlexBetween, Tag } from '@/component/ui-components';
 import StyledSelect from '@/component/StyledSelect/StyledSelect';
-import { useAxios } from "@/common";
+import { useAxios, useIsMobileEnv } from "@/common";
 import { auth, bikeCities as cities } from "@/const";
 import { useLocationStore } from "@/store/locationStore";
 import iconBike from "@/images/bike-available.png";
@@ -52,8 +52,9 @@ const getIcon = (available, capacity) => {
   return iconBike;
 };
 
-const generatePopup = (title, address, available, capacity) => ReactDOMServer.renderToString(
+const generatePopup = (title, address, available, capacity, isNew) => ReactDOMServer.renderToString(
   <BikeCard>
+    {isNew && <Tag>Youbike 2.0</Tag>}
     <H4 style={{ margin: '0.25em 0' }}>{title}</H4>
     <BriefText style={{ marginBottom: 16 }}>{address}</BriefText>
     <AlignCenter>
@@ -86,7 +87,15 @@ const addMarkers = (position, targetMap, city) => {
           popupAnchor: [0, -39]
         })
       }).addTo(targetMap);
-      marker.bindPopup(generatePopup(b.StationName.Zh_tw.split('_')[1], b.StationAddress.Zh_tw, data[i].AvailableRentBikes, data[i].AvailableReturnBikes))
+      marker.bindPopup(
+        generatePopup(
+          b.StationName.Zh_tw.split('_')[1],
+          b.StationAddress.Zh_tw,
+          data[i].AvailableRentBikes,
+          data[i].AvailableReturnBikes,
+          b.StationName.Zh_tw.split('_')[0].includes('2.0')
+        )
+      );
     });
   });
 };
@@ -124,6 +133,7 @@ const initMap = (config, ele) => {
 };
 
 const BikeMap = () => {
+  const isMobile = useIsMobileEnv();
   const ref = React.useRef(null);
   const [filter, setFilter] = React.useState(null);
   const [mapConfig, setMapConfig] = React.useState(null);
@@ -168,16 +178,20 @@ const BikeMap = () => {
 
   return (
     <MainCard>
-      <FlexBetween style={{ marginBottom: 12 }}>
-        <StyledSelect
-          defaultValue={filter ? filter.city : ''}
-          onSelect={(val) => setFilter((prev) => ({ ...prev, city: val }))}
-          options={[{ value: '', label: '縣市', disabled: true }].concat(cities.map((n) => ({ value: n.key, label: n.name })))}
-        />
-        <div>
-          <ButtonMain onClick={() => applyFilter()} style={{ marginRight: 8 }}>篩選</ButtonMain>
-          <ButtonWhite onClick={() => getPosition()}>我的附近</ButtonWhite>
-        </div>
+      <FlexBetween style={{ marginBottom: 12, flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
+        <FlexBetween style={isMobile ? { flexBasis: '100%', marginBottom: 8 } : null}>
+          <StyledSelect
+            style={isMobile ? { flex: 1, marginRight: 8 } : null}
+            defaultValue={filter ? filter.city : ''}
+            onSelect={(val) => setFilter((prev) => ({ ...prev, city: val }))}
+            options={[{ value: '', label: '縣市', disabled: true }].concat(cities.map((n) => ({ value: n.key, label: n.name })))}
+          />
+          {isMobile && <ButtonMain onClick={applyFilter} style={{minWidth: 'auto'}}>篩選</ButtonMain>}
+        </FlexBetween>
+        <FlexBetween>
+          {!isMobile && <ButtonMain onClick={applyFilter} style={{ marginRight: 8 }}>篩選</ButtonMain>}
+          <ButtonWhite onClick={getPosition}>我的附近</ButtonWhite>
+        </FlexBetween>
       </FlexBetween>
       <ReloadRow>
         <IconText onClick={reloadMap}>
