@@ -1,13 +1,7 @@
 import React from 'react';
-import L from 'leaflet';
-import { ContentWrapper, PageTop, AlignCenter, H1 } from '@/component/ui-components';
-import { Wrapper } from "@googlemaps/react-wrapper";
-import { useAxios } from "@/common";
-import { auth } from "@/const";
-import iconBike from "@/images/bike-available.png";
-import iconBikeEmpty from "@/images/bike-empty.png";
-import iconBikeOccupied from "@/images/bike-occupied.png";
-import { MapBox } from "./style";
+import { useNavigate, Link } from "react-router-dom";
+import { ContentWrapper, AlignCenter, H1, ButtonWhite } from '@/component/ui-components';
+import { Outlet } from 'react-router';
 
 const Map = ({
   onClick,
@@ -150,86 +144,17 @@ const Bike = () => {
   );
 };
 
-const Bike2 = () => {
-  const ref = React.useRef(null);
-  const TPstation = [25.0444698, 121.5170863]; //設定北車為初始點
-  const [center, setCenter] = React.useState(TPstation);
-  const [zoom, setZoom] = React.useState(16);
-
-  const getSitesData = (lat, lng) => {
-    return useAxios({
-      url: `https://ptx.transportdata.tw/MOTC/v2/Bike/Availability/NearBy?$spatialFilter=nearby(${lat},${lng},1000)&$format=JSON&$orderby=StationUID`
-    });
-  };
-
-  const getNearSites = (lat, lng) => {
-    return useAxios({
-      url: `https://ptx.transportdata.tw/MOTC/v2/Bike/Station/NearBy?$spatialFilter=nearby(${lat},${lng},1000)&$format=JSON&$orderby=StationUID`
-    });
-  };
-
-  const getIcon = (available, capacity) => {
-    if (capacity === 0) {
-      return iconBikeOccupied;
-    }
-    if (available === 0) {
-      return iconBikeEmpty;
-    }
-    return iconBike;
-  };
-
-  React.useEffect(() => {
-    const mymap = L.map(ref.current).setView([center[0], center[1]], zoom)
-      .on('moveend', (e) => {
-        const newCenter = e.target.getCenter();
-        setCenter([newCenter.lat, newCenter.lng]);
-      })
-      .on('zoomend', (e) => {
-        const newZoom = e.target.getZoom();
-        setZoom(newZoom);
-      });
-
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: auth.mapBoxToken
-    }).addTo(mymap);
-
-    const currentCenter = mymap.getCenter();
-
-    Promise.all([
-      getNearSites(currentCenter.lat, currentCenter.lng),
-      getSitesData(currentCenter.lat, currentCenter.lng)
-    ]).then((results) => {
-      const points = results[0];
-      const data = results[1];
-      points.forEach((b, i) => {
-        const { PositionLat, PositionLon } = b.StationPosition;
-        const marker = L.marker([PositionLat, PositionLon], {
-            icon: L.icon({ iconUrl: getIcon(data[i].AvailableRentBikes, data[i].AvailableReturnBikes),
-            iconAnchor: [30, 39],
-            popupAnchor: [0, -39]
-          }) }).addTo(mymap);
-        marker.bindPopup(`<div>Available:${data[i].AvailableRentBikes}<br/>Capacity:${data[i].AvailableReturnBikes}</div>`)
-      });
-    });
-
-    return () => {
-      mymap.remove();
-    }
-  }, [center]);
-
+const BikeTop = () => {
+  const navigate = useNavigate();
   return (
     <ContentWrapper>
-      <AlignCenter>
+      <AlignCenter style={{ marginBottom: 30 }}>
         <H1>騎鐵馬</H1>
+        <ButtonWhite onClick={() => navigate('search')}>站點查詢</ButtonWhite>
       </AlignCenter>
-      <MapBox ref={ref} />
+      <Outlet />
     </ContentWrapper>
   );
 };
 
-export default Bike2;
+export default BikeTop;

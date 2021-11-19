@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ContentWrapper, IconText, BriefText, FlexBetween,
-  H1, H2, ButtonWhite, ButtonMain, FullContainer
+  H1, H2, ButtonWhite, ButtonMain, FullContainer, MainCard
 } from "@/component/ui-components";
 import Breadcrumb from "@/component/Breadcrumb/Breadcrumb";
 import Empty from "@/component/Empty/Empty";
@@ -15,7 +15,7 @@ import iconParking from '@/images/Parking.svg';
 import iconPrice from '@/images/Price.svg';
 import { loader, useAxiosGet, renderImg, formatDate, renderGrids } from "@/common";
 import { textByType, auth } from "@/const";
-import { MainCard, FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper, DetailWrapper } from "./style";
+import { FigureContainer, CategoryLink, InlineInfo, MainInfoWrapper, DetailWrapper } from "./style";
 
 const starByText = {
   '一星級': 1,

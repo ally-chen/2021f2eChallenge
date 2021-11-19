@@ -54,6 +54,7 @@ export const DropdownWrapper = styled.div`
 
 export const DropdownList = styled.ul`
   position: absolute;
+  z-index: 1001;
   top: calc(100% + 4px);
   background: linear-gradient(180deg, rgba(239, 239, 239, 0) 0%, rgba(206, 206, 206, 0.2) 100%), #FFFFFF;
   box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.25), inset 0px -1px 4px rgba(0, 0, 0, 0.3);

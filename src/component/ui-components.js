@@ -48,6 +48,17 @@ ${ButtonMain} {
 }
 `;
 
+export const MainCard = styled.div`
+background: linear-gradient(180deg, rgba(239, 239, 239, 0) 0%, rgba(206, 206, 206, 0.2) 100%), #FFFFFF;
+box-shadow: 8px 48px 35px -13px rgba(0, 0, 0, 0.25), inset -4px -4px 3px -2px rgba(0, 0, 0, 0.25);
+border-radius: 50px;
+padding: 20px 15px 40px;
+margin-bottom: 60px;
+${desktopMedia(`
+padding: 36px 40px;
+`)}
+`;
+
 export const FullContainer = styled.div`
   text-align: center;
   display: flex;

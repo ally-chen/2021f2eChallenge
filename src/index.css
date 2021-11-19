@@ -39,3 +39,6 @@ img {
 #root {
   overflow: hidden;
 }
+.leaflet-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC','Noto Sans TC', sans-serif;
+}

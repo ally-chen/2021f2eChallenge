@@ -13,13 +13,13 @@ import Home from '@/container/Home/Home';
 import Page from '@/container/Page/Page';
 import List from '@/container/List/List';
 import Bike from '@/container/Bike/Bike';
-import { auth } from "@/const";
+import BikeMap from '@/container/BikeMap/BikeMap';
 
 function App() {
   return (
     <LocationContextProvider>
       <PageContextProvider>
-        <Wrapper apiKey={auth.gMapKey} render={(status) => <h1>{status}</h1>}>
+        {/* <Wrapper apiKey={auth.gMapKey} render={(status) => <h1>{status}</h1>}> */}
           <Router>
             <Menu />
             <Routes>
@@ -28,13 +28,16 @@ function App() {
               <Route path="food" element={<List />} />
               <Route path="stay" element={<List />} />
               <Route path="events" element={<List />} />
-              <Route path="bike" element={<Bike />} />
+              <Route path="bike" element={<Bike />}>
+                <Route path="search" element={<BikeMap />} />
+                <Route index element={<BikeMap />} />
+              </Route>
               <Route path=":type/:id" element={<Page />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
             <Footer />
           </Router>
-        </Wrapper>
+        {/* </Wrapper> */}
       </PageContextProvider>
     </LocationContextProvider>
   );
